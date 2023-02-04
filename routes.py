@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template
+from flask import render_template, request, redirect
 
 @app.route("/")
 def index():
@@ -26,7 +26,7 @@ def register():
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         if password1 != password2:
-            return render_template("error.html", message="The passwords do not match.)
+            return render_template("error.html", message="The passwords do not match.")
         if player.register(username, password1):
             return redirect("/")
         else:
