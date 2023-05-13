@@ -1,5 +1,6 @@
 from app import app
 from flask import render_template, request, redirect
+import player
 
 @app.route("/")
 def index():
@@ -31,3 +32,8 @@ def register():
             return redirect("/")
         else:
             return render_template("error.html", message="Registration failed.")
+        
+@app.route("/logout")
+def logout():
+    player.logout()
+    return redirect("/")
