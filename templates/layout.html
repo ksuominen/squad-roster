@@ -6,8 +6,12 @@
 	<body>
 		<h1>Squad Roster</h1>
 		<a href="/">Home</a>
-		<a href="/login">Log In</a>
-		<a href="/register">Register</a>
+		{% if session.user_id %}
+			<a href="/logout">Log out</a>
+		{% else %}
+			<a href="/login">Log In</a>
+			<a href="/register">Register</a>
+		{% endif %}
 		<hr/>
 		{% block content %}{% endblock %}
 		<hr/>

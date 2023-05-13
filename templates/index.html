@@ -6,7 +6,6 @@
 
     {% if session.user_id %}
     <p>Welcome {{ session.user_name }}!</p>
-    <a href="/logout">Log out</a>
     {% else %}
     <p>Welcome! Yor are not logged in.</p>
     {% endif %}
