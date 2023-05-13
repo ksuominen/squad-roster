@@ -1,6 +1,7 @@
 from app import app
 from flask import render_template, request, redirect
 import player
+import item
 
 @app.route("/")
 def index():
@@ -37,3 +38,9 @@ def register():
 def logout():
     player.logout()
     return redirect("/")
+
+@app.route("/items", methods=["GET", "POST"])
+def items():
+    if request.method == "GET":
+        items = item.get_all_items()
+        return render_template("items.html", items=items)
