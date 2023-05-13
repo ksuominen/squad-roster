@@ -44,3 +44,8 @@ def items():
     if request.method == "GET":
         items = item.get_all_items()
         return render_template("items.html", items=items)
+    if request.method == "POST":
+        name = request.form["name"]
+        description = request.form["description"]
+        item.add_item(name, description)
+        return redirect("/items")

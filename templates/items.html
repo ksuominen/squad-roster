@@ -2,17 +2,29 @@
 
 {% block title %}Items{% endblock %}
 {% block content %}
-    <h2>Items</h2>
+  <h2>Items</h2>
+  <p>
     <table>
-    <tr>
-    <th>Name</th>
-    <th>Description</th>
-    </tr>
-    {% for item in items %}
-    <tr>
-    <td>{{ item[1] }}</td>
-    <td>{{ item[2] }}</td>
-    </tr>
-    {% endfor %}
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      {% for item in items %}
+        <tr>
+          <td>{{ item[1] }}</td>
+          <td>{{ item[2] }}</td>
+        </tr>
+      {% endfor %}
     </table>
+  </p>
+  <p>
+    <p>Add a new item:</p>
+    <form action="/items" method="POST">
+		<label for="name">Name</label>
+    <input name="name" id="name" required>
+    <label for="description">Description</label>
+    <input name="description" id="description" required>
+		<input type="submit" value="Add new">
+	</form>
+  </p>
 {% endblock %}
