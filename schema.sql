@@ -1,7 +1,7 @@
 CREATE TABLE player (
     id SERIAL PRIMARY KEY,
     username VARCHAR(30) UNIQUE NOT NULL,
-    password VARCHAR(30) NOT NULL,
+    password TEXT NOT NULL,
     is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 
