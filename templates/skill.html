@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}Skills{% endblock %}
+{% block content %}
+  <h2>Skills</h2>
+  <p>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Level</th>
+      </tr>
+      {% for skill in skills %}
+        <tr>
+          <td>{{ skill[1] }}</td>
+          <td>{{ skill[2] }}</td>
+          <td>{{ skill[3] }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </p>
+  <p>
+    <p>Add a new skill:</p>
+    <form action="/skills" method="POST">
+	<label for="name">Name</label>
+    <input name="name" id="name" required>
+    <label for="description">Description</label>
+    <input name="description" id="description" required>
+    <label for="level">Skill level</label>
+    <select name="level" id="level" required>
+        <option value="Trained">Trained</option>
+        <option value="Expert">Expert</option>
+        <option value="Master">Master</option>
+    </select>
+	<input type="submit" value="Add new">
+	</form>
+  </p>
+{% endblock %}

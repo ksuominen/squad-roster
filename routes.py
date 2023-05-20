@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, request, redirect
 import player
 import item
+import skill
 
 @app.route("/")
 def index():
@@ -49,3 +50,15 @@ def items():
         description = request.form["description"]
         item.add_item(name, description)
         return redirect("/items")
+
+@app.route("/skills", methods=["GET", "POST"])
+def skills():
+    if request.method == "GET":
+        skills = skill.get_all_skills()
+        return render_template("skill.html", skills=skills)
+    if request.method == "POST":
+        name = request.form["name"]
+        description = request.form["description"]
+        level = request.form["level"]
+        skill.add_skill(name, description, level)
+        return redirect("/skills")
