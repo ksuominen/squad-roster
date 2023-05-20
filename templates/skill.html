@@ -4,17 +4,46 @@
 {% block content %}
   <h2>Skills</h2>
   <p>
+    <h3>Trained skills</h3>
     <table>
       <tr>
         <th>Name</th>
         <th>Description</th>
-        <th>Level</th>
       </tr>
-      {% for skill in skills %}
+      {% for skill in trained_skills %}
         <tr>
           <td>{{ skill[1] }}</td>
           <td>{{ skill[2] }}</td>
-          <td>{{ skill[3] }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </p>
+  <p>
+    <h3>Expert skills</h3>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      {% for skill in expert_skills %}
+        <tr>
+          <td>{{ skill[1] }}</td>
+          <td>{{ skill[2] }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </p>
+  <p>
+    <h3>Master skills</h3>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      {% for skill in master_skills %}
+        <tr>
+          <td>{{ skill[1] }}</td>
+          <td>{{ skill[2] }}</td>
         </tr>
       {% endfor %}
     </table>

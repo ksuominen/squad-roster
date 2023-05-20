@@ -9,3 +9,15 @@ def add_skill(name, description, level):
 def get_all_skills():
     sql = text("SELECT id, name, description, level FROM skill ORDER BY name")
     return db.session.execute(sql).fetchall()
+
+def get_trained_skills():
+    sql = text("SELECT id, name, description FROM skill WHERE LOWER(level) = 'trained'")
+    return db.session.execute(sql).fetchall()
+
+def get_expert_skills():
+    sql = text("SELECT id, name, description FROM skill WHERE LOWER(level) = 'expert'")
+    return db.session.execute(sql).fetchall()
+
+def get_master_skills():
+    sql = text("SELECT id, name, description FROM skill WHERE LOWER(level) = 'master'")
+    return db.session.execute(sql).fetchall()

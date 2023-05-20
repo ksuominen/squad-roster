@@ -54,8 +54,10 @@ def items():
 @app.route("/skills", methods=["GET", "POST"])
 def skills():
     if request.method == "GET":
-        skills = skill.get_all_skills()
-        return render_template("skill.html", skills=skills)
+        trained_skills = skill.get_trained_skills()
+        expert_skills = skill.get_expert_skills()
+        master_skills = skill.get_master_skills()
+        return render_template("skill.html", trained_skills=trained_skills, expert_skills=expert_skills, master_skills=master_skills)
     if request.method == "POST":
         name = request.form["name"]
         description = request.form["description"]
