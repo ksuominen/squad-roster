@@ -17,7 +17,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         if player.login(username, password):
-            return redirect("/")
+            return redirect("/ownpage")
         else:
             return render_template("error.html", message="Wrong username or password.")
 
@@ -40,6 +40,10 @@ def register():
 def logout():
     player.logout()
     return redirect("/")
+
+@app.route("/ownpage")
+def ownpage():
+    return render_template("player.html")
 
 @app.route("/items", methods=["GET", "POST"])
 def items():
