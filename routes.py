@@ -31,6 +31,8 @@ def register():
         password2 = request.form["password2"]
         if password1 != password2:
             return render_template("error.html", message="The passwords do not match.")
+        if player.username_taken(username):
+            return render_template("error.html", message="Sorry, but the username is already in use. Please try another username!")
         if player.register(username, password1):
             return redirect("/")
         else:

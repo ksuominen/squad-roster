@@ -3,6 +3,12 @@ from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.sql import text
 
+def username_taken(username):
+    sql = text("SELECT id  FROM player WHERE username=:username")
+    result = db.session.execute(sql, {"username":username})
+    user = result.fetchone()
+    return True if user else  False
+
 def register(username, password):
     hash_value = generate_password_hash(password)
     try:
