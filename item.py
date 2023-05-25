@@ -9,3 +9,9 @@ def add_item(name, description):
 def get_all_items():
     sql = text("SELECT id, name, description FROM item ORDER BY name")
     return db.session.execute(sql).fetchall()
+
+def exists(name):
+    sql = text("SELECT id FROM item WHERE name=:name")
+    result = db.session.execute(sql, {"name":name})
+    item = result.fetchone()
+    return True if item else  False

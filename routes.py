@@ -55,8 +55,11 @@ def items():
     if request.method == "POST":
         name = request.form["name"]
         description = request.form["description"]
-        item.add_item(name, description)
-        return redirect("/items")
+        if item.exists(name):
+            return render_template("error.html", message="An item already exists with that name.")
+        else:
+            item.add_item(name, description)
+            return redirect("/items")
 
 @app.route("/skills", methods=["GET", "POST"])
 def skills():
