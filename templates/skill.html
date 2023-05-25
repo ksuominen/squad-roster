@@ -5,6 +5,7 @@
   <h2>Skills</h2>
   <p>
     <h3>Trained skills</h3>
+    {% if trained_skills %}
     <table>
       <tr>
         <th>Name</th>
@@ -17,9 +18,13 @@
         </tr>
       {% endfor %}
     </table>
+    {% else %}
+      <p>There are currently no trained skills.</p>
+    {% endif %}
   </p>
   <p>
     <h3>Expert skills</h3>
+    {% if expert_skills %}
     <table>
       <tr>
         <th>Name</th>
@@ -32,9 +37,13 @@
         </tr>
       {% endfor %}
     </table>
+    {% else %}
+      <p>There are currently no expert skills.</p>
+    {% endif %}
   </p>
   <p>
     <h3>Master skills</h3>
+    {% if master_skills %}
     <table>
       <tr>
         <th>Name</th>
@@ -47,6 +56,9 @@
         </tr>
       {% endfor %}
     </table>
+    {% else %}
+      <p>There are currently no master skills.</p>
+    {% endif %}
   </p>
   <p>
     <p>Add a new skill:</p>
