@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}Classes{% endblock %}
+{% block content %}
+  <h2>Classes</h2>
+  <p>
+    {% if classes %}
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Stat adjustments</th>
+        <th>Trauma response</th>
+        <th>Class skills</th>
+      </tr>
+      {% for class in classes %}
+        <tr>
+          <td>{{ class[1] }}</td>
+          <td>{{ class[2] }}</td>
+          <td>{{ class[3] }}</td>
+          <td>{{ class[4] }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+      <p>There are currently no classes to show.</p>
+    {% endif %}
+  </p>
+  <p>
+    <p>Add a new class:</p>
+    <form action="/classes" method="POST">
+	<label for="name">Name</label>
+    <input name="name" id="name" required>
+    <label for="stat_adjustment">Stat adjustments</label>
+    <input name="stat_adjustment" id="stat_adjustment" required>
+    <label for="trauma_response">Trauma response</label>
+    <input name="trauma_response" id="trauma_response" required>
+    <label for="class_skills">Class skills</label>
+    <input name="class_skills" id="class_skills" required>
+	<input type="submit" value="Add new">
+	</form>
+  </p>
+{% endblock %}

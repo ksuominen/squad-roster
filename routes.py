@@ -3,6 +3,7 @@ from flask import render_template, request, redirect
 import player
 import item
 import skill
+import mothershipClasses
 
 @app.route("/")
 def index():
@@ -64,3 +65,16 @@ def skills():
         level = request.form["level"]
         skill.add_skill(name, description, level)
         return redirect("/skills")
+    
+@app.route("/classes", methods=["GET", "POST"])
+def classes():
+    if request.method == "GET":
+        all_classes = mothershipClasses.get_all_classes()
+        return render_template("classes.html", classes=all_classes)
+    if request.method == "POST":
+        name = request.form["name"]
+        stat_adjustment = request.form["stat_adjustment"]
+        trauma_response = request.form["trauma_response"]
+        class_skills = request.form["class_skills"]
+        mothershipClasses.add_class(name, stat_adjustment, trauma_response, class_skills)
+        return redirect("/classes")
