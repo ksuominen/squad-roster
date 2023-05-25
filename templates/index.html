@@ -2,12 +2,7 @@
 
 {% block title %}Home{% endblock %}
 {% block content %}
-    
-    {% if session.user_id %}
-    <h2>{{ session.user_name }}'s page</h2>
-    <p>Welcome!</p>
-    {% else %}
     <h2>Home</h2>
-    <p>Welcome! You are not logged in.</p>
-    {% endif %}
+    <p>Welcome to Squad Roster!</p>
+    <p>This is a database training project for storing info related to <a href="https://www.mothershiprpg.com/" target="_blank">Mothership</a> inspired role-playing game.</p>
 {% endblock %}
