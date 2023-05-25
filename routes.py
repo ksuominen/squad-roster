@@ -34,7 +34,7 @@ def register():
         if player.username_taken(username):
             return render_template("error.html", message="Sorry, but the username is already in use. Please try another username!")
         if player.register(username, password1):
-            return redirect("/")
+            return redirect("/ownpage")
         else:
             return render_template("error.html", message="Registration failed.")
         
