@@ -4,6 +4,7 @@
 {% block content %}
   <h2>Items</h2>
   <p>
+    {% if items %}
     <table>
       <tr>
         <th>Name</th>
@@ -16,6 +17,9 @@
         </tr>
       {% endfor %}
     </table>
+    {% else %}
+      <p>There are currently no items to show.</p>
+    {% endif %}
   </p>
   <p>
     <p>Add a new item:</p>
