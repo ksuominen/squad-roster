@@ -1,9 +1,10 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
 import player
 import item
 import skill
 import mothershipClasses
+import campaign
 
 @app.route("/")
 def index():
@@ -45,7 +46,8 @@ def logout():
 
 @app.route("/ownpage")
 def ownpage():
-    return render_template("player.html")
+    gm_campaigns = campaign.get_all_gm_campaigns(session["user_name"])
+    return render_template("player.html", gm_campaigns = gm_campaigns)
 
 @app.route("/items", methods=["GET", "POST"])
 def items():
@@ -87,3 +89,14 @@ def classes():
         class_skills = request.form["class_skills"]
         mothershipClasses.add_class(name, stat_adjustment, trauma_response, class_skills)
         return redirect("/classes")
+    
+@app.route("/campaigns", methods=["GET", "POST"])
+def campaigns():
+    if request.method == "GET":
+        all_campaigns = campaign.get_all_campaigns()
+        return render_template("campaign.html", campaigns = all_campaigns)
+    if request.method =="POST":
+        name = request.form["name"]
+        description = request.form["description"]
+        campaign.create_campaign(name, description)
+        return redirect("/ownpage")

@@ -5,4 +5,33 @@
     
     <h2>{{ session.user_name }}'s page</h2>
 
+    <p>
+        {% if gm_campaigns %}
+        <h3>Campaigns where you're the gamemaster</h3>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+          {% for campaign in gm_campaigns %}
+            <tr>
+              <td>{{ campaign[0] }}</td>
+              <td>{{ campaign[1] }}</td>
+            </tr>
+          {% endfor %}
+        </table>
+        {% else %}
+          <p>You aren't the gamemaster in any campaigns.</p>
+        {% endif %}
+      </p>
+      <p>
+        <p>Add a new campaign:</p>
+        <form action="/campaign" method="POST">
+            <label for="name">Name</label>
+        <input name="name" id="name" required>
+        <label for="description">Description</label>
+        <input name="description" id="description">
+            <input type="submit" value="Add new">
+        </form>
+      </p>
 {% endblock %}

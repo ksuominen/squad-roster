@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}Campaigns{% endblock %}
+{% block content %}
+  <h2>Campaigns</h2>
+  <p>
+    {% if campaigns %}
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Gamemaster</th>
+      </tr>
+      {% for campaign in campaigns %}
+        <tr>
+          <td>{{ campaign[0] }}</td>
+          <td>{{ campaign[1] }}</td>
+          <td>{{ campaign[2] }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+      <p>There are currently no campaigns to show.</p>
+    {% endif %}
+  </p>
+{% endblock %}
