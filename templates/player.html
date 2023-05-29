@@ -7,7 +7,7 @@
 
     <p>
         {% if gm_campaigns %}
-        <h3>Campaigns where I'm the gamemaster</h3>
+        <h3>Campaigns where {{ session.user_name }} is the gamemaster</h3>
         <table>
           <tr>
             <th>Name</th>
@@ -34,7 +34,7 @@
             <input type="submit" value="Add new">
         </form>
       </p>
-      <h3>My characters</h3>
+      <h3>{{ session.user_name }}'s characters</h3>
       <p>
         {% if characters %}
         <table>
