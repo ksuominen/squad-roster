@@ -7,7 +7,7 @@
 
     <p>
         {% if gm_campaigns %}
-        <h3>Campaigns where you're the gamemaster</h3>
+        <h3>Campaigns where I'm the gamemaster</h3>
         <table>
           <tr>
             <th>Name</th>
@@ -26,9 +26,56 @@
       </p>
       <p>
         <p>Add a new campaign:</p>
-        <form action="/campaign" method="POST">
+        <form action="/campaigns" method="POST">
             <label for="name">Name</label>
         <input name="name" id="name" required>
+        <label for="description">Description</label>
+        <input name="description" id="description">
+            <input type="submit" value="Add new">
+        </form>
+      </p>
+      <h3>My characters</h3>
+      <p>
+        {% if characters %}
+        <table>
+          <tr>
+            <th>Name</th>
+          </tr>
+          {% for character in characters %}
+            <tr>
+              <td>{{ character[0] }}</td>
+            </tr>
+          {% endfor %}
+        </table>
+        {% else %}
+          <p>You don't have any characters yet.</p>
+        {% endif %}
+      </p>
+      <p>
+        <p>Add a new character:</p>
+        <form action="/characters" method="POST">
+            <label for="name">Name</label>
+        <input name="name" id="name" required>
+        <label for="level">Level (at least 1):</label>
+        <input type="number" id="level" name="level" min="1" value="1">
+        <label for="strength">Strength (between 1 and 100):</label>
+        <input type="number" id="strength" name="strength" min="1" max="100">
+        <label for="speed">Speed (between 1 and 100):</label>
+        <input type="number" id="speed" name="speed" min="1" max="100">
+        <label for="intellect">Intellect (between 1 and 100):</label>
+        <input type="number" id="intellect" name="intellect" min="1" max="100">
+        <label for="combat">Combat (between 1 and 100):</label>
+        <input type="number" id="combat" name="combat" min="1" max="100">
+        <label for="sanity">Sanity (between 1 and 100):</label>
+        <input type="number" id="sanity" name="sanity" min="1" max="100">
+        <label for="fear">Fear (between 1 and 100):</label>
+        <input type="number" id="fear" name="fear" min="1" max="100">
+        <label for="body">Body (between 1 and 100):</label>
+        <input type="number" id="body" name="body" min="1" max="100">
+        <label for="max_hp">Max hp (between 20 and 100):</label>
+        <input type="number" id="max_hp" name="max_hp" min="20" max="100">
+        <label for="min_stress">Min stress (between 2 and 100):</label>
+        <input type="number" id="min_stress" name="min_stress" min="2" max="100" value="2">
         <label for="description">Description</label>
         <input name="description" id="description">
             <input type="submit" value="Add new">

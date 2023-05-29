@@ -5,6 +5,7 @@ import item
 import skill
 import mothershipClasses
 import campaign
+import character
 
 @app.route("/")
 def index():
@@ -47,7 +48,8 @@ def logout():
 @app.route("/ownpage")
 def ownpage():
     gm_campaigns = campaign.get_all_gm_campaigns(session["user_name"])
-    return render_template("player.html", gm_campaigns = gm_campaigns)
+    characters = character.get_player_characters()
+    return render_template("player.html", gm_campaigns = gm_campaigns, characters = characters)
 
 @app.route("/items", methods=["GET", "POST"])
 def items():
@@ -99,4 +101,25 @@ def campaigns():
         name = request.form["name"]
         description = request.form["description"]
         campaign.create_campaign(name, description)
+        return redirect("/ownpage")
+    
+@app.route("/characters", methods=["POST"])
+def characters():
+    if request.method =="POST":
+        name = request.form["name"]
+        #class_id = request.form["class_id"]
+        class_id = 1
+        level = int(request.form["level"])
+        strength = int(request.form["strength"])
+        speed = int(request.form["speed"])
+        intellect = int(request.form["intellect"])
+        combat = int(request.form["combat"])
+        sanity = int(request.form["sanity"])
+        fear = int(request.form["fear"])
+        body = int(request.form["body"])
+        max_hp = int(request.form["max_hp"])
+        min_stress = int(request.form["min_stress"])
+        description = request.form["description"]
+        character.create_character(name, class_id, level, strength, speed, intellect, \
+                                   combat, sanity, fear, body, max_hp, min_stress, description)
         return redirect("/ownpage")
