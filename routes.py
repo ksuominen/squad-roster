@@ -47,7 +47,7 @@ def logout():
 
 @app.route("/ownpage")
 def ownpage():
-    if player.user_id() != 0:
+    if session.get("user_name"):
         gm_campaigns = campaign.get_all_gm_campaigns(session["user_name"])
         characters = character.get_player_characters()
         return render_template("player.html", gm_campaigns = gm_campaigns, characters = characters)
