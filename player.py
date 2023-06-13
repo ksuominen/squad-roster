@@ -1,7 +1,8 @@
 from db import db
-from flask import session
+from flask import session, request, abort
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.sql import text
+import secrets
 
 def username_taken(username):
     sql = text("SELECT id  FROM player WHERE username=:username")
@@ -33,9 +34,10 @@ def login(username, password):
         else:
             return False
         
-def user_id():
-    return session.get("user_id", 0)
-        
 def logout():
     del session["user_id"]
     del session["user_name"]
+        
+def user_id():
+    return session.get("user_id", 0)
+

@@ -74,6 +74,7 @@
         <option value="Master">Master</option>
     </select>
 	<input type="submit" value="Add new">
+  <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
 	</form>
   </p>
 {% endblock %}

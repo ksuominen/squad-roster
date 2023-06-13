@@ -32,6 +32,7 @@
         <label for="description">Description</label>
         <input name="description" id="description">
             <input type="submit" value="Add new">
+            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
         </form>
       </p>
       <h3>{{ session.user_name }}'s characters</h3>
@@ -79,6 +80,7 @@
         <label for="description">Description</label>
         <input name="description" id="description">
             <input type="submit" value="Add new">
+            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
         </form>
       </p>
 {% endblock %}

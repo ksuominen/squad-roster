@@ -37,6 +37,7 @@
     <label for="class_skills">Class skills</label>
     <input name="class_skills" id="class_skills" required>
 	<input type="submit" value="Add new">
+  <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
 	</form>
   </p>
 {% endblock %}

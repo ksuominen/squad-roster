@@ -29,6 +29,7 @@
     <label for="description">Description</label>
     <input name="description" id="description" required>
 		<input type="submit" value="Add new">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 	</form>
   </p>
 {% endblock %}
