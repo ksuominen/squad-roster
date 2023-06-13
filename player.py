@@ -33,6 +33,9 @@ def login(username, password):
         else:
             return False
         
+def user_id():
+    return session.get("user_id", 0)
+        
 def logout():
     del session["user_id"]
     del session["user_name"]
