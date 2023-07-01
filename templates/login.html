@@ -4,11 +4,12 @@
 
 {% block content %}
 	<h2>Log In</h2>
+	{% from "_formhelpers.html" import render_field %}
 	<form action="/login" method="POST">
-		<label for="username">Username</label>
-    <input name="username" id="username" required>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" required>
+		<dl>
+			{{ render_field(form.username) }}
+    		{{ render_field(form.password) }}
+		</dl>
 		<input type="submit" value="Log In">
 		<input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
 	</form>

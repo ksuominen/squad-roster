@@ -5,7 +5,7 @@ from sqlalchemy.sql import text
 import secrets
 
 def username_taken(username):
-    sql = text("SELECT id  FROM player WHERE username=:username")
+    sql = text("SELECT id FROM player WHERE username=:username")
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
     return True if user else  False

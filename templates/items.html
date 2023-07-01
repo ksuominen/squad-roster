@@ -23,13 +23,14 @@
   </p>
   <p>
     <p>Add a new item:</p>
+    {% from "_formhelpers.html" import render_field %}
     <form action="/items" method="POST">
-		<label for="name">Name</label>
-    <input name="name" id="name" required>
-    <label for="description">Description</label>
-    <input name="description" id="description" required>
+      <dl>
+        {{ render_field(form.name) }}
+        {{ render_field(form.description) }}
+      </dl>
 		<input type="submit" value="Add new">
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 	</form>
   </p>
 {% endblock %}

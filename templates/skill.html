@@ -62,17 +62,13 @@
   </p>
   <p>
     <p>Add a new skill:</p>
+    {% from "_formhelpers.html" import render_field %}
     <form action="/skills" method="POST">
-	<label for="name">Name</label>
-    <input name="name" id="name" required>
-    <label for="description">Description</label>
-    <input name="description" id="description" required>
-    <label for="level">Skill level</label>
-    <select name="level" id="level" required>
-        <option value="Trained">Trained</option>
-        <option value="Expert">Expert</option>
-        <option value="Master">Master</option>
-    </select>
+      <dl>
+        {{ render_field(form.name) }}
+        {{ render_field(form.description) }}
+        {{ render_field(form.level) }}
+      </dl>
 	<input type="submit" value="Add new">
   <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
 	</form>

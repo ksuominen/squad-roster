@@ -27,15 +27,14 @@
   </p>
   <p>
     <p>Add a new class:</p>
+    {% from "_formhelpers.html" import render_field %}
     <form action="/classes" method="POST">
-	<label for="name">Name</label>
-    <input name="name" id="name" required>
-    <label for="stat_adjustment">Stat adjustments</label>
-    <input name="stat_adjustment" id="stat_adjustment" required>
-    <label for="trauma_response">Trauma response</label>
-    <input name="trauma_response" id="trauma_response" required>
-    <label for="class_skills">Class skills</label>
-    <input name="class_skills" id="class_skills" required>
+      <dl>
+        {{ render_field(form.name) }}
+        {{ render_field(form.stat_adjustment) }}
+        {{ render_field(form.trauma_response) }}
+        {{ render_field(form.class_skills) }}
+      </dl>
 	<input type="submit" value="Add new">
   <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
 	</form>
