@@ -45,7 +45,7 @@
           </tr>
           {% for character in characters %}
             <tr>
-              <td>{{ character.name }}</td>
+              <td><a href="/character/{{character.id}}">{{ character.name }}</a></td>
             </tr>
           {% endfor %}
         </table>

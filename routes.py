@@ -124,9 +124,9 @@ def campaigns():
 @app.route("/character/<int:character_id>", methods=["GET", "POST"])
 def show_character(character_id):
     character_info = character.get_character_info(character_id)
+    if not character_info:
+        return render_template("error.html", message="No such character found.")
     character_campaign = campaign.get_campaign(character_info.campaign_id)
     character_class = mothershipClasses.get_class(character_info.class_id)
     character_skills = character.get_character_skills(character_id)
-    if not character_info:
-        return render_template("error.html", message="No such character found.")
     return render_template("character.html", character=character_info, character_class=character_class, character_campaign=character_campaign, skills=character_skills)
