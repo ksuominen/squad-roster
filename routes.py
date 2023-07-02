@@ -73,7 +73,7 @@ def ownpage():
         if character.add_skill(add_skill_form.character_id.data, add_skill_form.skill_id.data):
             return redirect("/ownpage")
         else:
-            return render_template("error.html", message="No such skill or character found.")
+            return render_template("error.html", message="Could not add skill.")
     
     return render_template("player.html", campaign_form=campaign_form, character_form=character_form, add_skill_form = add_skill_form, gm_campaigns = gm_campaigns, characters = characters)
 

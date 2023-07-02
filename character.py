@@ -18,12 +18,10 @@ def get_player_characters():
 
 def add_skill(character_id, skill_id):
     sql = text("SELECT id, player_id FROM character WHERE id=:character_id")
-    result = db.session.execute(sql, {"character_id":character_id})
-    character = result.fetchone()
+    character = db.session.execute(sql, {"character_id":character_id}).fetchone()
     sql = text("SELECT id FROM character WHERE id=:skill_id")
-    result = db.session.execute(sql, {"skill_id":skill_id})
-    skill = result.fetchone()
-    if not skill or not character or session["user_id"] != character[1]:
+    skill = db.session.execute(sql, {"skill_id":skill_id}).fetchone()
+    if not skill or not character or session["user_id"] != character[1] or has_skill(character_id, skill_id):
         return False
     sql = text("INSERT INTO character_skill (character_id, skill_id) VALUES (:character_id,:skill_id)")
     db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})
@@ -37,3 +35,7 @@ def get_character_info(character_id):
 def get_character_skills(character_id):
     sql = text("SELECT name, description, level FROM skill INNER JOIN character_skill ON skill_id = skill.id WHERE character_id=:character_id")
     return db.session.execute(sql, {"character_id":character_id}).fetchall()
+
+def has_skill(character_id, skill_id):
+    sql = text("SELECT id FROM character_skill WHERE character_id=:character_id AND skill_id=:skill_id")
+    return db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id}).fetchone()
