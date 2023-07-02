@@ -33,3 +33,7 @@ def add_skill(character_id, skill_id):
 def get_character_info(character_id):
     sql = text("SELECT * FROM character WHERE id=:character_id")
     return db.session.execute(sql, {"character_id":character_id}).fetchone()
+
+def get_character_skills(character_id):
+    sql = text("SELECT name, description, level FROM skill INNER JOIN character_skill ON skill_id = skill.id WHERE character_id=:character_id")
+    return db.session.execute(sql, {"character_id":character_id}).fetchall()

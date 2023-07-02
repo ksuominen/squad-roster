@@ -24,4 +24,24 @@
       {% endif %}
     </ul>
   </p>
+
+  <h3>Skills</h3>
+  {% if skills %}
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Skill level</th>
+      </tr>
+      {% for skill in skills %}
+        <tr>
+          <td>{{ skill.name }}</td>
+          <td>{{ skill.description }}</td>
+          <td>{{ skill.level }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+      <p>{{ character.name }} currently has no skills.</p>
+    {% endif %}
 {% endblock %}
