@@ -10,6 +10,6 @@ def get_all_classes():
     sql = text("SELECT id, name, stat_adjustment, trauma_response, class_skills FROM class ORDER BY name")
     return db.session.execute(sql).fetchall()
 
-def get_all_classes_name_id():
-    sql = text("SELECT id, name FROM class ORDER BY name")
-    return db.session.execute(sql).fetchall()
+def get_class(class_id):
+    sql = text("SELECT name FROM class WHERE id=:class_id")
+    return db.session.execute(sql, {"class_id":class_id}).fetchone()

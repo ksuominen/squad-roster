@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ character.name }}{% endblock %}
+{% block content %}
+  <h2>{{ character.name }}</h2>
+  <p>
+    <ul>
+      <li>Class: {{ character_class.name }}</li>
+      <li>Level: {{ character.level }}</li>
+      <li>Strength: {{ character.strength }}</li>
+      <li>Speed: {{ character.speed }}</li>
+      <li>Intellect: {{ character.intellect }}</li>
+      <li>Combat: {{ character.combat }}</li>
+      <li>Sanity: {{ character.sanity }}</li>
+      <li>Fear: {{ character.fear }}</li>
+      <li>Body: {{ character.body }}</li>
+      <li>Hp: {{ character.current_hp }}/{{ character.max_hp }}</li>
+      <li>Stress: {{ character.current_stress }}/{{ character.min_stress }}</li>
+      {% if character.description %}
+      <li>Description: {{ character.description }}</li>
+      {% endif %}
+      {% if character_campaign %}
+      <li>Campaign: {{ character_campaign.name }}</li>
+      {% endif %}
+    </ul>
+  </p>
+{% endblock %}

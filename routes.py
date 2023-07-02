@@ -49,7 +49,7 @@ def ownpage():
     
     characters = character.get_player_characters()
     character_list = [(i.id, i.name) for i in characters]
-    available_classes = mothershipClasses.get_all_classes_name_id()
+    available_classes = mothershipClasses.get_all_classes()
     class_list=[(i.id, i.name) for i in available_classes]
     available_skills = skill.get_all_skills()
     skill_list = [(i.id, i.name) for i in available_skills]
@@ -120,3 +120,12 @@ def campaigns():
     form = f.CreateCampaignForm(request.form)
     all_campaigns = campaign.get_all_campaigns()
     return render_template("campaign.html", form=form, campaigns = all_campaigns)
+
+@app.route("/character/<int:character_id>", methods=["GET", "POST"])
+def show_character(character_id):
+    character_info = character.get_character_info(character_id)
+    character_campaign = campaign.get_campaign(character_info.campaign_id)
+    character_class = mothershipClasses.get_class(character_info.class_id)
+    if not character_info:
+        return render_template("error.html", message="No such character found.")
+    return render_template("character.html", character=character_info, character_class=character_class, character_campaign=character_campaign)

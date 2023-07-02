@@ -29,3 +29,7 @@ def add_skill(character_id, skill_id):
     db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})
     db.session.commit()
     return True
+
+def get_character_info(character_id):
+    sql = text("SELECT * FROM character WHERE id=:character_id")
+    return db.session.execute(sql, {"character_id":character_id}).fetchone()

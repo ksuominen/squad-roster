@@ -16,4 +16,8 @@ def get_all_gm_campaigns(player_name):
 
 def get_all_campaigns():
     sql = text("SELECT name, description, username FROM campaign INNER JOIN player ON gamemaster_id = player.id")
-    return db.session.execute(sql)
+    return db.session.execute(sql).fetchall()
+
+def get_campaign(campaign_id):
+    sql = text("SELECT name FROM campaign WHERE id = :campaign_id")
+    return db.session.execute(sql, {"campaign_id":campaign_id}).fetchone()
