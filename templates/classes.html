@@ -14,10 +14,10 @@
       </tr>
       {% for class in classes %}
         <tr>
-          <td>{{ class[1] }}</td>
-          <td>{{ class[2] }}</td>
-          <td>{{ class[3] }}</td>
-          <td>{{ class[4] }}</td>
+          <td>{{ class.name }}</td>
+          <td>{{ class.stat_adjustment }}</td>
+          <td>{{ class.trauma_response }}</td>
+          <td>{{ class.class_skills }}</td>
         </tr>
       {% endfor %}
     </table>

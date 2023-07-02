@@ -13,5 +13,19 @@ def create_character(name, class_id, level, strength, speed, intellect, combat, 
 
 def get_player_characters():
     player_id = session["user_id"]
-    sql = text("SELECT name FROM character WHERE player_id =:player_id")
+    sql = text("SELECT id, name FROM character WHERE player_id =:player_id")
     return db.session.execute(sql, {"player_id":player_id}).fetchall()
+
+def add_skill(character_id, skill_id):
+    sql = text("SELECT id, player_id FROM character WHERE id=:character_id")
+    result = db.session.execute(sql, {"character_id":character_id})
+    character = result.fetchone()
+    sql = text("SELECT id FROM character WHERE id=:skill_id")
+    result = db.session.execute(sql, {"skill_id":skill_id})
+    skill = result.fetchone()
+    if not skill or not character or session["user_id"] != character[1]:
+        return False
+    sql = text("INSERT INTO character_skill (character_id, skill_id) VALUES (:character_id,:skill_id)")
+    db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})
+    db.session.commit()
+    return True

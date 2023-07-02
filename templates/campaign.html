@@ -13,9 +13,9 @@
       </tr>
       {% for campaign in campaigns %}
         <tr>
-          <td>{{ campaign[0] }}</td>
-          <td>{{ campaign[1] }}</td>
-          <td>{{ campaign[2] }}</td>
+          <td>{{ campaign.name }}</td>
+          <td>{{ campaign.description }}</td>
+          <td>{{ campaign.username }}</td>
         </tr>
       {% endfor %}
     </table>

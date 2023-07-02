@@ -48,3 +48,8 @@ class CreateCharacterForm(Form):
     min_stress = IntegerField("Min stress (between 2 and 100):", validators=[validators.NumberRange(min=2, max=100, message="Invalid length")])
     description = StringField("Description")
     character_submit = SubmitField("Add new")
+
+class AddSkillToCharacterForm(Form):
+    character_id = SelectField("Character", coerce=int, validators=[validators.InputRequired()])
+    skill_id = SelectField("Skill", coerce=int, validators=[validators.InputRequired()])
+    add_skill_submit = SubmitField("Add a new skill to character")

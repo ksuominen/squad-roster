@@ -7,7 +7,7 @@
 
     <p>
         {% if gm_campaigns %}
-        <h3>Campaigns where {{ session.user_name }} is the gamemaster</h3>
+        <h3>Campaigns where you are the gamemaster</h3>
         <table>
           <tr>
             <th>Name</th>
@@ -15,8 +15,8 @@
           </tr>
           {% for campaign in gm_campaigns %}
             <tr>
-              <td>{{ campaign[0] }}</td>
-              <td>{{ campaign[1] }}</td>
+              <td>{{ campaign.name }}</td>
+              <td>{{ campaign.description }}</td>
             </tr>
           {% endfor %}
         </table>
@@ -36,7 +36,7 @@
           <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
         </form>
       </p>
-      <h3>{{ session.user_name }}'s characters</h3>
+      <h3>Your characters</h3>
       <p>
         {% if characters %}
         <table>
@@ -45,7 +45,7 @@
           </tr>
           {% for character in characters %}
             <tr>
-              <td>{{ character[0] }}</td>
+              <td>{{ character.name }}</td>
             </tr>
           {% endfor %}
         </table>
@@ -71,6 +71,17 @@
             {{ render_field(character_form.min_stress) }}
             {{ render_field(character_form.description) }}
             {{ render_field(character_form.character_submit) }}
+          </dl>
+          <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+        </form>
+      </p>
+      <p>
+        <p>Add a new skill to character:</p>
+        <form action="/ownpage" method="POST">
+          <dl>
+            {{ render_field(add_skill_form.character_id) }}
+            {{ render_field(add_skill_form.skill_id) }}
+            {{ render_field(add_skill_form.add_skill_submit) }}
           </dl>
           <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
         </form>

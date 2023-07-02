@@ -44,11 +44,22 @@ def logout():
 
 @app.route("/ownpage", methods=["GET", "POST"])
 def ownpage():
+    if not session.get("user_name"):
+        return render_template("error.html", message="Sorry, you don't have access to this page.")
+    
+    characters = character.get_player_characters()
+    character_list = [(i.id, i.name) for i in characters]
     available_classes = mothershipClasses.get_all_classes_name_id()
     class_list=[(i.id, i.name) for i in available_classes]
+    available_skills = skill.get_all_skills()
+    skill_list = [(i.id, i.name) for i in available_skills]
     campaign_form = f.CreateCampaignForm(request.form)
     character_form = f.CreateCharacterForm(request.form)
     character_form.class_id.choices = class_list
+    add_skill_form = f.AddSkillToCharacterForm(request.form)
+    add_skill_form.character_id.choices = character_list
+    add_skill_form.skill_id.choices = skill_list
+    gm_campaigns = campaign.get_all_gm_campaigns(session["user_name"])
     
     if request.method =="POST" and campaign_form.campaign_submit.data and campaign_form.validate():
         campaign.create_campaign(campaign_form.name.data, campaign_form.description.data)
@@ -58,12 +69,13 @@ def ownpage():
                                    character_form.combat.data, character_form.sanity.data, character_form.fear.data, character_form.body.data, character_form.max_hp.data, \
                                     character_form.min_stress.data, character_form.description.data)
         return redirect("/ownpage")
-    if session.get("user_name"):
-        gm_campaigns = campaign.get_all_gm_campaigns(session["user_name"])
-        characters = character.get_player_characters()
-        return render_template("player.html", campaign_form=campaign_form, character_form=character_form, gm_campaigns = gm_campaigns, characters = characters)
+    if request.method =="POST" and add_skill_form.add_skill_submit.data and add_skill_form.validate():
+        if character.add_skill(add_skill_form.character_id.data, add_skill_form.skill_id.data):
+            return redirect("/ownpage")
+        else:
+            return render_template("error.html", message="No such skill or character found.")
     
-    return render_template("error.html", message="Sorry, you don't have access to this page.")
+    return render_template("player.html", campaign_form=campaign_form, character_form=character_form, add_skill_form = add_skill_form, gm_campaigns = gm_campaigns, characters = characters)
 
 @app.route("/items", methods=["GET", "POST"])
 def items():
