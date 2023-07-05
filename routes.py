@@ -129,6 +129,10 @@ def classes():
 @app.route("/campaigns", methods=["GET"])
 def campaigns():
     form = f.CreateCampaignForm(request.form)
+    if session.get("user_name"):
+        player_campaigns = campaign.get_all_campaigns_with_playerinfo(session.get("user_id"))
+        return render_template("campaign.html", form=form, campaigns = player_campaigns)
+    
     all_campaigns = campaign.get_all_campaigns()
     return render_template("campaign.html", form=form, campaigns = all_campaigns)
 

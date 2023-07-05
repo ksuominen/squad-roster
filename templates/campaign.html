@@ -16,6 +16,13 @@
           <td>{{ campaign.name }}</td>
           <td>{{ campaign.description }}</td>
           <td>{{ campaign.username }}</td>
+          {% if session.get("user_name") %}
+            {% if campaign.players_character_id or session.get("user_id") == campaign.gamemaster_id %}
+            <td>Mukana kampanjassa</td>
+            {% else %}
+            <td>Ei mukana kampanjassa</td>
+            {% endif %}
+          {% endif %}
         </tr>
       {% endfor %}
     </table>
