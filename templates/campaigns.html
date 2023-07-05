@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}Campaigns{% endblock %}
+{% block content %}
+  <h2>Campaigns</h2>
+  <p>
+    {% if campaigns %}
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Gamemaster</th>
+      </tr>
+      {% for campaign in campaigns %}
+        <tr>
+          {% if session.get("user_name") and session.get("user_id") == campaign.gamemaster_id or session.get("user_name") and campaign.players_character_id %}
+            <li><a href="/campaign/{{campaign.id}}">{{ campaign.name }}</a></li>
+          {% else %}
+            <td>{{ campaign.name }}</td>
+          {% endif %}
+          <td>{{ campaign.description }}</td>
+          <td>{{ campaign.username }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+      <p>There are currently no campaigns to show.</p>
+    {% endif %}
+  </p>
+{% endblock %}

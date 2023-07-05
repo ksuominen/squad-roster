@@ -1,33 +1,23 @@
 {% extends "layout.html" %}
 
-{% block title %}Campaigns{% endblock %}
+{% block title %}{{ campaign.name }}{% endblock %}
 {% block content %}
-  <h2>Campaigns</h2>
+  <h2>{{ campaign.name }}</h2>
   <p>
-    {% if campaigns %}
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Gamemaster</th>
-      </tr>
-      {% for campaign in campaigns %}
-        <tr>
-          <td>{{ campaign.name }}</td>
-          <td>{{ campaign.description }}</td>
-          <td>{{ campaign.username }}</td>
-          {% if session.get("user_name") %}
-            {% if campaign.players_character_id or session.get("user_id") == campaign.gamemaster_id %}
-            <td>Mukana kampanjassa</td>
-            {% else %}
-            <td>Ei mukana kampanjassa</td>
-            {% endif %}
-          {% endif %}
-        </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-      <p>There are currently no campaigns to show.</p>
-    {% endif %}
+    <ul>
+      <li>Description: {{ campaign.name }}</li>
+      <li>Gamemaster: {{ campaign.username }}</li>
+    </ul>
   </p>
+
+  <h3>Characters in this campaign:</h3>
+  {% if characters %}
+    <ul>
+      {% for character in characters %}
+      <li><a href="/character/{{character.id}}">{{ character.name }}</a>, a level {{ character.level }} {{ character.class_name }}</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>This campaign currently has no characters.</p>
+    {% endif %}
 {% endblock %}

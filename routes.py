@@ -131,10 +131,10 @@ def campaigns():
     form = f.CreateCampaignForm(request.form)
     if session.get("user_name"):
         player_campaigns = campaign.get_all_campaigns_with_playerinfo(session.get("user_id"))
-        return render_template("campaign.html", form=form, campaigns = player_campaigns)
+        return render_template("campaigns.html", form=form, campaigns = player_campaigns)
     
     all_campaigns = campaign.get_all_campaigns()
-    return render_template("campaign.html", form=form, campaigns = all_campaigns)
+    return render_template("campaigns.html", form=form, campaigns = all_campaigns)
 
 @app.route("/character/<int:character_id>", methods=["GET", "POST"])
 def show_character(character_id):
@@ -146,3 +146,11 @@ def show_character(character_id):
     character_skills = character.get_character_skills(character_id)
     character_items = character.get_character_items(character_id)
     return render_template("character.html", character=character_info, character_class=character_class, character_campaign=character_campaign, skills=character_skills, items=character_items)
+
+@app.route("/campaign/<int:campaign_id>", methods=["GET"])
+def show_campaign(campaign_id):
+    campaign_info = campaign.get_campaign(campaign_id)
+    if not campaign_info:
+        return render_template("error.html", message="No such campaign found.")
+    characters = campaign.get_characters(campaign_id)
+    return render_template("campaign.html", campaign=campaign_info, characters=characters)
