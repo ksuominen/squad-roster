@@ -21,6 +21,7 @@
       <p>There are currently no items to show.</p>
     {% endif %}
   </p>
+  {% if session.get("is_admin") %}
   <p>
     <p>Add a new item:</p>
     {% from "_formhelpers.html" import render_field %}
@@ -33,4 +34,5 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 	</form>
   </p>
+  {% endif %}
 {% endblock %}

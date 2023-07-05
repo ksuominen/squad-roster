@@ -25,6 +25,7 @@
       <p>There are currently no classes to show.</p>
     {% endif %}
   </p>
+  {% if session.get("is_admin") %}
   <p>
     <p>Add a new class:</p>
     {% from "_formhelpers.html" import render_field %}
@@ -39,4 +40,5 @@
   <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
 	</form>
   </p>
+  {% endif %}
 {% endblock %}

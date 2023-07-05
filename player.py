@@ -21,7 +21,7 @@ def register(username, password):
     return login(username, password)
 
 def login(username, password):
-    sql = text("SELECT id, username, password FROM player WHERE username=:username")
+    sql = text("SELECT id, username, password, is_admin FROM player WHERE username=:username")
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
     if not user:
@@ -30,6 +30,7 @@ def login(username, password):
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
             session["user_name"] = user.username
+            session["is_admin"] = user.is_admin
             return True
         else:
             return False

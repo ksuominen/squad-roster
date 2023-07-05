@@ -93,7 +93,7 @@ def items():
     form = f.CreateItemForm(request.form)
     items = item.get_all_items()
 
-    if request.method == "POST" and form.validate():
+    if request.method == "POST" and form.validate() and session.get("is_admin"):
         if item.exists(form.name.data):
             return render_template("error.html", message="An item already exists with that name.")
         else:
@@ -109,7 +109,7 @@ def skills():
     expert_skills = skill.get_expert_skills()
     master_skills = skill.get_master_skills()
 
-    if request.method == "POST" and form.validate():
+    if request.method == "POST" and form.validate() and session.get("is_admin"):
         skill.add_skill(form.name.data, form.description.data, form.level.data)
         return redirect("/skills")
     
@@ -120,7 +120,7 @@ def classes():
     all_classes = mothershipClasses.get_all_classes()
     form = f.CreateClassForm(request.form)
 
-    if request.method == "POST" and form.validate():
+    if request.method == "POST" and form.validate() and session.get("is_admin"):
         mothershipClasses.add_class(form.name.data, form.stat_adjustment.data, form.trauma_response.data, form.class_skills.data)
         return redirect("/classes")
 
