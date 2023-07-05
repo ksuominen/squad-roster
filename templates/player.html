@@ -75,6 +75,7 @@
           <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
         </form>
       </p>
+      {% if characters %}
       <p>
         <p>Add a new skill to character:</p>
         <form action="/ownpage" method="POST">
@@ -98,4 +99,5 @@
           <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
         </form>
       </p>
+      {% endif %}
 {% endblock %}
