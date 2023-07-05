@@ -53,12 +53,17 @@ def ownpage():
     class_list=[(i.id, i.name) for i in available_classes]
     available_skills = skill.get_all_skills()
     skill_list = [(i.id, i.name) for i in available_skills]
+    available_items = item.get_all_items()
+    item_list = [(i.id, i.name) for i in available_items]
     campaign_form = f.CreateCampaignForm(request.form)
     character_form = f.CreateCharacterForm(request.form)
     character_form.class_id.choices = class_list
     add_skill_form = f.AddSkillToCharacterForm(request.form)
     add_skill_form.character_id.choices = character_list
     add_skill_form.skill_id.choices = skill_list
+    add_item_form = f.AddItemToCharacterForm(request.form)
+    add_item_form.character_id.choices = character_list
+    add_item_form.item_id.choices = item_list
     gm_campaigns = campaign.get_all_gm_campaigns(session["user_name"])
     
     if request.method =="POST" and campaign_form.campaign_submit.data and campaign_form.validate():
@@ -74,8 +79,14 @@ def ownpage():
             return redirect("/ownpage")
         else:
             return render_template("error.html", message="Could not add skill.")
+        
+    if request.method =="POST" and add_item_form.add_item_submit.data and add_item_form.validate():
+        if character.add_item(add_item_form.character_id.data, add_item_form.item_id.data, add_item_form.amount.data):
+            return redirect("/ownpage")
+        else:
+            return render_template("error.html", message="Could not add item.")
     
-    return render_template("player.html", campaign_form=campaign_form, character_form=character_form, add_skill_form = add_skill_form, gm_campaigns = gm_campaigns, characters = characters)
+    return render_template("player.html", campaign_form=campaign_form, character_form=character_form, add_skill_form = add_skill_form, add_item_form = add_item_form, gm_campaigns = gm_campaigns, characters = characters)
 
 @app.route("/items", methods=["GET", "POST"])
 def items():
@@ -129,4 +140,5 @@ def show_character(character_id):
     character_campaign = campaign.get_campaign(character_info.campaign_id)
     character_class = mothershipClasses.get_class(character_info.class_id)
     character_skills = character.get_character_skills(character_id)
-    return render_template("character.html", character=character_info, character_class=character_class, character_campaign=character_campaign, skills=character_skills)
+    character_items = character.get_character_items(character_id)
+    return render_template("character.html", character=character_info, character_class=character_class, character_campaign=character_campaign, skills=character_skills, items=character_items)

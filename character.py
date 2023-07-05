@@ -19,9 +19,9 @@ def get_player_characters():
 def add_skill(character_id, skill_id):
     sql = text("SELECT id, player_id FROM character WHERE id=:character_id")
     character = db.session.execute(sql, {"character_id":character_id}).fetchone()
-    sql = text("SELECT id FROM character WHERE id=:skill_id")
+    sql = text("SELECT id FROM skill WHERE id=:skill_id")
     skill = db.session.execute(sql, {"skill_id":skill_id}).fetchone()
-    if not skill or not character or session["user_id"] != character[1] or has_skill(character_id, skill_id):
+    if not skill or not character or session["user_id"] != character.player_id or has_skill(character_id, skill_id):
         return False
     sql = text("INSERT INTO character_skill (character_id, skill_id) VALUES (:character_id,:skill_id)")
     db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})
@@ -39,3 +39,19 @@ def get_character_skills(character_id):
 def has_skill(character_id, skill_id):
     sql = text("SELECT id FROM character_skill WHERE character_id=:character_id AND skill_id=:skill_id")
     return db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id}).fetchone()
+
+def add_item(character_id, item_id, amount):
+    sql = text("SELECT id, player_id FROM character WHERE id=:character_id")
+    character = db.session.execute(sql, {"character_id":character_id}).fetchone()
+    sql = text("SELECT id FROM item WHERE id=:item_id")
+    item = db.session.execute(sql, {"item_id":item_id}).fetchone()
+    if not item or not character or session["user_id"] != character.player_id:
+        return False
+    sql = text("INSERT INTO character_item (character_id, item_id, amount) VALUES (:character_id,:item_id,:amount)")
+    db.session.execute(sql, {"character_id":character_id, "item_id":item_id, "amount":amount})
+    db.session.commit()
+    return True
+
+def get_character_items(character_id):
+    sql = text("SELECT name, description, amount FROM item INNER JOIN character_item ON item_id = item.id WHERE character_id=:character_id")
+    return db.session.execute(sql, {"character_id":character_id}).fetchall()
