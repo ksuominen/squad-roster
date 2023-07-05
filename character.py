@@ -47,6 +47,14 @@ def add_item(character_id, item_id, amount):
     item = db.session.execute(sql, {"item_id":item_id}).fetchone()
     if not item or not character or session["user_id"] != character.player_id:
         return False
+    item_exists = has_item(character_id, item_id)
+    if item_exists:
+        new_amount = item_exists.amount + amount
+        sql = text("UPDATE character_item SET amount = :new_amount WHERE id=:id")
+        db.session.execute(sql, {"new_amount":new_amount, "id":item_exists.id})
+        db.session.commit()
+        return True
+
     sql = text("INSERT INTO character_item (character_id, item_id, amount) VALUES (:character_id,:item_id,:amount)")
     db.session.execute(sql, {"character_id":character_id, "item_id":item_id, "amount":amount})
     db.session.commit()
@@ -55,3 +63,7 @@ def add_item(character_id, item_id, amount):
 def get_character_items(character_id):
     sql = text("SELECT name, description, amount FROM item INNER JOIN character_item ON item_id = item.id WHERE character_id=:character_id")
     return db.session.execute(sql, {"character_id":character_id}).fetchall()
+
+def has_item(character_id, item_id):
+    sql = text("SELECT id, amount FROM character_item WHERE character_id=:character_id AND item_id=:item_id")
+    return db.session.execute(sql, {"character_id":character_id, "item_id":item_id}).fetchone()
