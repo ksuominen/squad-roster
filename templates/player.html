@@ -15,7 +15,7 @@
           </tr>
           {% for campaign in gm_campaigns %}
             <tr>
-              <td>{{ campaign.name }}</td>
+              <td><a href="/campaign/{{campaign.id}}">{{ campaign.name }}</a></td>
               <td>{{ campaign.description }}</td>
             </tr>
           {% endfor %}
