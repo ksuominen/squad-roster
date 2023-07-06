@@ -14,7 +14,7 @@
       {% for campaign in campaigns %}
         <tr>
           {% if session.get("user_name") and session.get("user_id") == campaign.gamemaster_id or session.get("user_name") and campaign.players_character_id %}
-            <li><a href="/campaign/{{campaign.id}}">{{ campaign.name }}</a></li>
+            <td><a href="/campaign/{{campaign.id}}">{{ campaign.name }}</a></td>
           {% else %}
             <td>{{ campaign.name }}</td>
           {% endif %}

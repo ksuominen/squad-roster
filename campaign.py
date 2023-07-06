@@ -9,10 +9,8 @@ def create_campaign(name, description):
     db.session.commit()
 
 def get_all_gm_campaigns(player_name):
-    sql = text("SELECT id FROM player WHERE username = :player_name")
-    player_id = db.session.execute(sql, {"player_name":player_name}).fetchone()[0]
-    sql = text("SELECT name, description FROM campaign WHERE gamemaster_id = :player_id")
-    return db.session.execute(sql, {"player_id":player_id}).fetchall()
+    sql = text("SELECT campaign.id, campaign.name, campaign.description FROM campaign INNER JOIN player ON campaign.gamemaster_id = player.id WHERE player.username = :player_name")
+    return db.session.execute(sql, {"player_name":player_name}).fetchall()
 
 def get_all_campaigns():
     sql = text("SELECT campaign.id, campaign.name, campaign.description, campaign.gamemaster_id, player.username FROM campaign INNER JOIN player ON gamemaster_id = player.id")
@@ -33,3 +31,9 @@ def get_all_campaigns_with_playerinfo(player_id):
 def get_characters(campaign_id):
     sql = text("SELECT character.id, character.name, character.level, class.name as class_name FROM character INNER JOIN campaign ON character.campaign_id = campaign.id INNER JOIN class on character.class_id = class.id WHERE campaign.id = :campaign_id")
     return db.session.execute(sql, {"campaign_id":campaign_id}).fetchall()
+
+def is_player_in_campaign(player_id, campaign_id):
+    sql = text("SELECT DISTINCT ON (campaign.id) campaign.id, campaign.gamemaster_id, character.id AS players_character_id FROM campaign INNER JOIN player ON campaign.gamemaster_id = player.id LEFT JOIN character ON campaign.id = character.campaign_id AND character.player_id = :player_id WHERE campaign.id = :campaign_id")
+    result = db.session.execute(sql, {"player_id":player_id, "campaign_id":campaign_id}).fetchone()
+    return True if result.gamemaster_id == player_id or result.players_character_id else False
+        

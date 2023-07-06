@@ -152,5 +152,8 @@ def show_campaign(campaign_id):
     campaign_info = campaign.get_campaign(campaign_id)
     if not campaign_info:
         return render_template("error.html", message="No such campaign found.")
+    
+    if not session.get("user_name") or not campaign.is_player_in_campaign(session.get("user_id"), campaign_id):
+        return render_template("error.html", message="Only gamemaster and players can view this page.")
     characters = campaign.get_characters(campaign_id)
     return render_template("campaign.html", campaign=campaign_info, characters=characters)
