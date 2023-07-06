@@ -38,3 +38,4 @@ def login(username, password):
 def logout():
     del session["user_id"]
     del session["user_name"]
+    del session["is_admin"]
