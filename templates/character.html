@@ -20,7 +20,7 @@
       <li>Description: {{ character.description }}</li>
       {% endif %}
       {% if character_campaign %}
-      <li>Campaign: {{ character_campaign.name }}</li>
+      <li>Campaign: <a href="/campaign/{{character_campaign.id}}">{{ character_campaign.name }}</a></li>
       {% endif %}
     </ul>
   </p>
