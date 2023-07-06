@@ -147,7 +147,7 @@ def show_character(character_id):
     character_items = character.get_character_items(character_id)
     return render_template("character.html", character=character_info, character_class=character_class, character_campaign=character_campaign, skills=character_skills, items=character_items)
 
-@app.route("/campaign/<int:campaign_id>", methods=["GET"])
+@app.route("/campaign/<int:campaign_id>", methods=["GET", "POST"])
 def show_campaign(campaign_id):
     campaign_info = campaign.get_campaign(campaign_id)
     if not campaign_info:
@@ -155,5 +155,15 @@ def show_campaign(campaign_id):
     
     if not session.get("user_name") or not campaign.is_player_in_campaign(session.get("user_id"), campaign_id):
         return render_template("error.html", message="Only gamemaster and players can view this page.")
+    
     characters = campaign.get_characters(campaign_id)
-    return render_template("campaign.html", campaign=campaign_info, characters=characters)
+    form = f.AddCharacterToCampaignForm(request.form)
+    all_characters = character.get_all_characters()
+    character_list = [(i.id, i.name) for i in all_characters]
+    form.character_id.choices = character_list
+    if request.method == "POST" and session.get("user_name") == campaign_info.username and form.validate():
+        campaign.add_character_to_campaign(form.character_id.data, campaign_id)
+        characters = campaign.get_characters(campaign_id)
+        return render_template("campaign.html", form=form, campaign=campaign_info, characters=characters)
+    
+    return render_template("campaign.html", form=form, campaign=campaign_info, characters=characters)

@@ -67,3 +67,7 @@ def get_character_items(character_id):
 def has_item(character_id, item_id):
     sql = text("SELECT id, amount FROM character_item WHERE character_id=:character_id AND item_id=:item_id")
     return db.session.execute(sql, {"character_id":character_id, "item_id":item_id}).fetchone()
+
+def get_all_characters():
+    sql = text("SELECT id, name FROM character")
+    return db.session.execute(sql).fetchall()

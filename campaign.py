@@ -17,7 +17,7 @@ def get_all_campaigns():
     return db.session.execute(sql).fetchall()
 
 def get_campaign(campaign_id):
-    sql = text("SELECT campaign.name, campaign.description, player.username FROM campaign INNER JOIN player ON campaign.gamemaster_id = player.id WHERE campaign.id = :campaign_id")
+    sql = text("SELECT campaign.id, campaign.name, campaign.description, player.username FROM campaign INNER JOIN player ON campaign.gamemaster_id = player.id WHERE campaign.id = :campaign_id")
     return db.session.execute(sql, {"campaign_id":campaign_id}).fetchone()  
 
 def get_player_campaigns(player_id):
@@ -36,4 +36,9 @@ def is_player_in_campaign(player_id, campaign_id):
     sql = text("SELECT DISTINCT ON (campaign.id) campaign.id, campaign.gamemaster_id, character.id AS players_character_id FROM campaign INNER JOIN player ON campaign.gamemaster_id = player.id LEFT JOIN character ON campaign.id = character.campaign_id AND character.player_id = :player_id WHERE campaign.id = :campaign_id")
     result = db.session.execute(sql, {"player_id":player_id, "campaign_id":campaign_id}).fetchone()
     return True if result.gamemaster_id == player_id or result.players_character_id else False
+
+def add_character_to_campaign(character_id, campaign_id):
+    sql = text("UPDATE character SET campaign_id = :campaign_id WHERE id = :character_id")
+    db.session.execute(sql, {"character_id":character_id, "campaign_id":campaign_id})
+    db.session.commit()
         

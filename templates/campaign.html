@@ -20,4 +20,18 @@
     {% else %}
       <p>This campaign currently has no characters.</p>
     {% endif %}
+
+  {% if session.get("user_name") == campaign.username %}
+    <p>
+      <p>Add a new character to this campaign:</p>
+      {% from "_formhelpers.html" import render_field %}
+      <form action="/campaign/{{campaign.id}}" method="POST">
+        <dl>
+          {{ render_field(form.character_id) }}
+        </dl>
+	      <input type="submit" value="Add character">
+        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+	    </form>
+    </p>
+  {% endif %}
 {% endblock %}

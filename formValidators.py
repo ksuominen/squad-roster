@@ -59,3 +59,6 @@ class AddItemToCharacterForm(Form):
     item_id = SelectField("Item", coerce=int, validators=[validators.InputRequired()])
     amount = IntegerField("Amount (between 1 and 100):", validators=[validators.NumberRange(min=1, max=100, message="Amount needs to be between 1 and 100")])
     add_item_submit = SubmitField("Add item to character")
+
+class AddCharacterToCampaignForm(Form):
+    character_id = SelectField("Character", coerce=int, validators=[validators.InputRequired()])
