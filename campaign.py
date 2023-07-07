@@ -1,6 +1,7 @@
 from db import db
 from sqlalchemy.sql import text
 from flask import session
+import character as c
 
 def create_campaign(name, description):
     gamemaster_id = session["user_id"]
@@ -41,4 +42,16 @@ def add_character_to_campaign(character_id, campaign_id):
     sql = text("UPDATE character SET campaign_id = :campaign_id WHERE id = :character_id")
     db.session.execute(sql, {"character_id":character_id, "campaign_id":campaign_id})
     db.session.commit()
-        
+
+def remove_character_from_campaign(character_id, campaign_id):
+    characters_player_id = c.get_characters_player_id(character_id).player_id
+    sql = text("SELECT gamemaster_if FROM campaign WHERE campaign_id =:campaign_id")
+    campaign_gm_id = db.session.execute(sql, {"campaign_id":campaign_id}).fetchone()
+    user_id = session.get("user_id")
+    if not user_id: 
+        return False
+    if user_id == characters_player_id or user_id == campaign_gm_id:
+        sql = text("UPDATE character SET campaign_id = NULL WHERE id = :character_id")
+        db.session.execute(sql, {"character_id":character_id})
+        db.session.commit()
+        return True
