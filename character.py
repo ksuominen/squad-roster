@@ -43,6 +43,16 @@ def has_skill(character_id, skill_id):
     sql = text("SELECT id FROM character_skill WHERE character_id=:character_id AND skill_id=:skill_id")
     return db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id}).fetchone()
 
+def delete_skill(character_id, skill_id):
+    character = get_characters_player_id(character_id)
+    has_skill = has_skill(character_id, skill_id)
+    if not has_skill or session["user_id"] != character.player_id:
+        return False
+    sql = text("DELETE FROM character_skill WHERE character_id=:character_id AND skill_id=:skill_id")
+    db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})
+    db.session.commit()
+    return True
+
 def add_item(character_id, item_id, amount):
     character = get_characters_player_id(character_id)
     sql = text("SELECT id FROM item WHERE id=:item_id")
