@@ -17,8 +17,7 @@ def get_player_characters():
     return db.session.execute(sql, {"player_id":player_id}).fetchall()
 
 def add_skill(character_id, skill_id):
-    sql = text("SELECT id, player_id FROM character WHERE id=:character_id")
-    character = db.session.execute(sql, {"character_id":character_id}).fetchone()
+    character = get_characters_player_id(character_id)
     sql = text("SELECT id FROM skill WHERE id=:skill_id")
     skill = db.session.execute(sql, {"skill_id":skill_id}).fetchone()
     if not skill or not character or session["user_id"] != character.player_id or has_skill(character_id, skill_id):
@@ -32,6 +31,10 @@ def get_character_info(character_id):
     sql = text("SELECT * FROM character WHERE id=:character_id")
     return db.session.execute(sql, {"character_id":character_id}).fetchone()
 
+def get_characters_player_id(character_id):
+    sql = text("SELECT id, player_id FROM character WHERE id=:character_id")
+    return db.session.execute(sql, {"character_id":character_id}).fetchone()
+
 def get_character_skills(character_id):
     sql = text("SELECT name, description, level FROM skill INNER JOIN character_skill ON skill_id = skill.id WHERE character_id=:character_id")
     return db.session.execute(sql, {"character_id":character_id}).fetchall()
@@ -41,8 +44,7 @@ def has_skill(character_id, skill_id):
     return db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id}).fetchone()
 
 def add_item(character_id, item_id, amount):
-    sql = text("SELECT id, player_id FROM character WHERE id=:character_id")
-    character = db.session.execute(sql, {"character_id":character_id}).fetchone()
+    character = get_characters_player_id(character_id)
     sql = text("SELECT id FROM item WHERE id=:item_id")
     item = db.session.execute(sql, {"item_id":item_id}).fetchone()
     if not item or not character or session["user_id"] != character.player_id:
@@ -61,8 +63,7 @@ def add_item(character_id, item_id, amount):
     return True
 
 def delete_item(character_id, item_id, amount):
-    sql = text("SELECT id, player_id FROM character WHERE id=:character_id")
-    character = db.session.execute(sql, {"character_id":character_id}).fetchone()
+    character = get_characters_player_id(character_id)
     has_item = has_item(character_id, item_id)
     if not has_item or session["user_id"] != character.player_id:
         return False
