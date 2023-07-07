@@ -3,7 +3,7 @@ from sqlalchemy.sql import text
 from flask import session
 
 def create_character(name, class_id, level, strength, speed, intellect, combat, sanity, fear, body, max_hp, min_stress, description):
-    player_id = session["user_id"]
+    player_id = session.get("user_id")
     sql = text("INSERT INTO character (name, class_id, player_id, level, strength, speed, intellect, combat, sanity, fear, body, max_hp, current_hp, min_stress, current_stress, description) \
                VALUES (:name,:class_id,:player_id,:level,:strength,:speed,:intellect,:combat,:sanity,:fear,:body,:max_hp,:max_hp,:min_stress,:min_stress,:description)")
     db.session.execute(sql, {"name":name, "class_id":class_id, "player_id":player_id, "level":level, "strength":strength, "speed":speed,\
@@ -12,20 +12,9 @@ def create_character(name, class_id, level, strength, speed, intellect, combat, 
     db.session.commit()
 
 def get_player_characters():
-    player_id = session["user_id"]
+    player_id = session.get("user_id")
     sql = text("SELECT id, name FROM character WHERE player_id =:player_id")
     return db.session.execute(sql, {"player_id":player_id}).fetchall()
-
-def add_skill(character_id, skill_id):
-    character = get_characters_player_id(character_id)
-    sql = text("SELECT id FROM skill WHERE id=:skill_id")
-    skill = db.session.execute(sql, {"skill_id":skill_id}).fetchone()
-    if not skill or not character or session["user_id"] != character.player_id or has_skill(character_id, skill_id):
-        return False
-    sql = text("INSERT INTO character_skill (character_id, skill_id) VALUES (:character_id,:skill_id)")
-    db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})
-    db.session.commit()
-    return True
 
 def get_character_info(character_id):
     sql = text("SELECT * FROM character WHERE id=:character_id")
@@ -34,6 +23,17 @@ def get_character_info(character_id):
 def get_characters_player_id(character_id):
     sql = text("SELECT id, player_id FROM character WHERE id=:character_id")
     return db.session.execute(sql, {"character_id":character_id}).fetchone()
+
+def add_skill(character_id, skill_id):
+    character = get_characters_player_id(character_id)
+    sql = text("SELECT id FROM skill WHERE id=:skill_id")
+    skill = db.session.execute(sql, {"skill_id":skill_id}).fetchone()
+    if not skill or not character or session.get("user_id") != character.player_id or has_skill(character_id, skill_id):
+        return False
+    sql = text("INSERT INTO character_skill (character_id, skill_id) VALUES (:character_id,:skill_id)")
+    db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})
+    db.session.commit()
+    return True
 
 def get_character_skills(character_id):
     sql = text("SELECT name, description, level FROM skill INNER JOIN character_skill ON skill_id = skill.id WHERE character_id=:character_id")
@@ -46,7 +46,7 @@ def has_skill(character_id, skill_id):
 def delete_skill(character_id, skill_id):
     character = get_characters_player_id(character_id)
     has_skill = has_skill(character_id, skill_id)
-    if not has_skill or session["user_id"] != character.player_id:
+    if not has_skill or session.get("user_id") != character.player_id:
         return False
     sql = text("DELETE FROM character_skill WHERE character_id=:character_id AND skill_id=:skill_id")
     db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})
@@ -57,7 +57,7 @@ def add_item(character_id, item_id, amount):
     character = get_characters_player_id(character_id)
     sql = text("SELECT id FROM item WHERE id=:item_id")
     item = db.session.execute(sql, {"item_id":item_id}).fetchone()
-    if not item or not character or session["user_id"] != character.player_id:
+    if not item or not character or session.get("user_id") != character.player_id:
         return False
     item_exists = has_item(character_id, item_id)
     if item_exists:
@@ -75,7 +75,7 @@ def add_item(character_id, item_id, amount):
 def delete_item(character_id, item_id, amount):
     character = get_characters_player_id(character_id)
     has_item = has_item(character_id, item_id)
-    if not has_item or session["user_id"] != character.player_id:
+    if not has_item or session.get("user_id") != character.player_id:
         return False
     if amount > 1:
         new_amount = amount -1

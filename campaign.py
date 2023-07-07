@@ -9,10 +9,6 @@ def create_campaign(name, description):
     db.session.execute(sql, {"name":name, "description":description, "gamemaster_id":gamemaster_id})
     db.session.commit()
 
-def get_all_gm_campaigns(player_name):
-    sql = text("SELECT campaign.id, campaign.name, campaign.description FROM campaign INNER JOIN player ON campaign.gamemaster_id = player.id WHERE player.username = :player_name")
-    return db.session.execute(sql, {"player_name":player_name}).fetchall()
-
 def get_all_campaigns():
     sql = text("SELECT campaign.id, campaign.name, campaign.description, campaign.gamemaster_id, player.username FROM campaign INNER JOIN player ON gamemaster_id = player.id")
     return db.session.execute(sql).fetchall()
@@ -20,6 +16,10 @@ def get_all_campaigns():
 def get_campaign(campaign_id):
     sql = text("SELECT campaign.id, campaign.name, campaign.description, player.username FROM campaign INNER JOIN player ON campaign.gamemaster_id = player.id WHERE campaign.id = :campaign_id")
     return db.session.execute(sql, {"campaign_id":campaign_id}).fetchone()  
+
+def get_all_gm_campaigns(player_name):
+    sql = text("SELECT campaign.id, campaign.name, campaign.description FROM campaign INNER JOIN player ON campaign.gamemaster_id = player.id WHERE player.username = :player_name")
+    return db.session.execute(sql, {"player_name":player_name}).fetchall()
 
 def get_player_campaigns(player_id):
     sql = text("SELECT campaign.id FROM campaign INNER JOIN character ON campaign.id = campaign_id INNER JOIN player ON player_id = player.id WHERE player.id = :player_id")

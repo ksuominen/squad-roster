@@ -8,7 +8,7 @@ def username_taken(username):
     sql = text("SELECT id FROM player WHERE username=:username")
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
-    return True if user else  False
+    return True if user else False
 
 def register(username, password):
     hash_value = generate_password_hash(password)
@@ -26,14 +26,12 @@ def login(username, password):
     user = result.fetchone()
     if not user:
         return False
-    else:
-        if check_password_hash(user.password, password):
-            session["user_id"] = user.id
-            session["user_name"] = user.username
-            session["is_admin"] = user.is_admin
-            return True
-        else:
-            return False
+    if check_password_hash(user.password, password):
+        session["user_id"] = user.id
+        session["user_name"] = user.username
+        session["is_admin"] = user.is_admin
+        return True
+    return False
         
 def logout():
     del session["user_id"]
