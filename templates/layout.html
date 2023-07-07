@@ -1,22 +1,28 @@
 <!doctype html>
+<link rel="stylesheet" href="/static/main.css">
 <html> 
 	<head>
 		<title>Squad Roster - {% block title %}{% endblock %}</title>
 	</head>
 	<body>
 		<h1>Squad Roster</h1>
-		<a href="/">Home</a>
-		{% if session.user_id %}
-			<a href="/ownpage">My page</a>
-			<a href="/logout">Log out</a>
-		{% else %}
-			<a href="/login">Log In</a>
-			<a href="/register">Register</a>
-		{% endif %}
-		<a href="/items">Items</a>
-		<a href="/skills">Skills</a>
-		<a href="/classes">Classes</a>
-		<a href="/campaigns">Campaigns</a>
+		<div class="topnav">
+			<a href="/">Home</a>
+			{% if session.user_id %}
+				<a href="/ownpage">My page</a>
+			{% endif %}
+			<a href="/items">Items</a>
+			<a href="/skills">Skills</a>
+			<a href="/classes">Classes</a>
+			<a href="/campaigns">Campaigns</a>
+			<span class="flex-spacer"></span>
+			{% if session.user_id %}
+				<a href="/logout">Log out</a>
+			{% else %}
+				<a href="/login">Log In</a>
+				<a href="/register">Register</a>
+			{% endif %}			
+	    </div>
 		<hr/>
 		{% block content %}{% endblock %}
 		<hr/>

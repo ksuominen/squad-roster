@@ -1,0 +1,9 @@
+.topnav {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.flex-spacer {
+    flex: 1;
+}
