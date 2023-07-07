@@ -36,7 +36,7 @@ def add_skill(character_id, skill_id):
     return True
 
 def get_character_skills(character_id):
-    sql = text("SELECT name, description, level FROM skill INNER JOIN character_skill ON skill_id = skill.id WHERE character_id=:character_id")
+    sql = text("SELECT skill.id, name, description, level FROM skill INNER JOIN character_skill ON skill_id = skill.id WHERE character_id=:character_id")
     return db.session.execute(sql, {"character_id":character_id}).fetchall()
 
 def has_skill(character_id, skill_id):
@@ -45,8 +45,8 @@ def has_skill(character_id, skill_id):
 
 def delete_skill(character_id, skill_id):
     character = get_characters_player_id(character_id)
-    has_skill = has_skill(character_id, skill_id)
-    if not has_skill or session.get("user_id") != character.player_id:
+    skill_exists = has_skill(character_id, skill_id)
+    if not skill_exists or session.get("user_id") != character.player_id:
         return False
     sql = text("DELETE FROM character_skill WHERE character_id=:character_id AND skill_id=:skill_id")
     db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})

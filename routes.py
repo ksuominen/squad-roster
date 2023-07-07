@@ -148,6 +148,12 @@ def show_character(character_id):
     character_items = character.get_character_items(character_id)
     return render_template("character.html", character=character_info, character_class=character_class, character_campaign=character_campaign, skills=character_skills, items=character_items)
 
+@app.route("/character/<int:character_id>/skill/<int:skill_id>", methods=["POST"])
+#todo: can we use delete?
+def delete_character_skill(character_id, skill_id):
+    character.delete_skill(character_id, skill_id)
+    return redirect(f"/character/{character_id}")
+
 @app.route("/campaign/<int:campaign_id>", methods=["GET", "POST"])
 def show_campaign(campaign_id):
     campaign_info = campaign.get_campaign(campaign_id)
