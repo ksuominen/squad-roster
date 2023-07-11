@@ -74,8 +74,8 @@ def add_item(character_id, item_id, amount):
 
 def delete_item(character_id, item_id, amount):
     character = get_characters_player_id(character_id)
-    has_item = has_item(character_id, item_id)
-    if not has_item or session.get("user_id") != character.player_id:
+    item_exists = has_item(character_id, item_id)
+    if not item_exists or session.get("user_id") != character.player_id:
         return False
     if amount > 1:
         new_amount = amount -1
@@ -89,7 +89,7 @@ def delete_item(character_id, item_id, amount):
     return True
 
 def get_character_items(character_id):
-    sql = text("SELECT name, description, amount FROM item INNER JOIN character_item ON item_id = item.id WHERE character_id=:character_id")
+    sql = text("SELECT item.id, name, description, amount FROM item INNER JOIN character_item ON item_id = item.id WHERE character_id=:character_id")
     return db.session.execute(sql, {"character_id":character_id}).fetchall()
 
 def has_item(character_id, item_id):

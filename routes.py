@@ -154,6 +154,13 @@ def delete_character_skill(character_id, skill_id):
     character.delete_skill(character_id, skill_id)
     return redirect(f"/character/{character_id}")
 
+@app.route("/character/<int:character_id>/item/<int:item_id>", methods=["POST"])
+#todo: can we use delete?
+def delete_character_item(character_id, item_id):
+    amount = int(request.form["amount"])
+    character.delete_item(character_id, item_id, amount)
+    return redirect(f"/character/{character_id}")
+
 @app.route("/campaign/<int:campaign_id>", methods=["GET", "POST"])
 def show_campaign(campaign_id):
     campaign_info = campaign.get_campaign(campaign_id)
