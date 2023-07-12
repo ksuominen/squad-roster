@@ -11,6 +11,10 @@ def create_character(name, class_id, level, strength, speed, intellect, combat, 
                                 "min_stress":min_stress, "current_stress":min_stress, "description":description})
     db.session.commit()
 
+def get_all_characters():
+    sql = text("SELECT id, name FROM character")
+    return db.session.execute(sql).fetchall()
+
 def get_player_characters():
     player_id = session.get("user_id")
     sql = text("SELECT id, name FROM character WHERE player_id =:player_id")
@@ -45,8 +49,7 @@ def has_skill(character_id, skill_id):
 
 def delete_skill(character_id, skill_id):
     character = get_characters_player_id(character_id)
-    skill_exists = has_skill(character_id, skill_id)
-    if not skill_exists or session.get("user_id") != character.player_id:
+    if session.get("user_id") != character.player_id:
         return False
     sql = text("DELETE FROM character_skill WHERE character_id=:character_id AND skill_id=:skill_id")
     db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})
@@ -95,7 +98,3 @@ def get_character_items(character_id):
 def has_item(character_id, item_id):
     sql = text("SELECT id, amount FROM character_item WHERE character_id=:character_id AND item_id=:item_id")
     return db.session.execute(sql, {"character_id":character_id, "item_id":item_id}).fetchone()
-
-def get_all_characters():
-    sql = text("SELECT id, name FROM character")
-    return db.session.execute(sql).fetchall()

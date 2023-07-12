@@ -1,5 +1,4 @@
 from wtforms import Form, StringField, PasswordField, SelectField, IntegerField, SubmitField, validators
-import mothershipClasses as mc
 
 class RegistrationForm(Form):
     username = StringField("Username", [validators.Length(min=4, max=25)])
