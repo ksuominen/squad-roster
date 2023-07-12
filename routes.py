@@ -130,7 +130,7 @@ def show_character(character_id):
     add_skill_form = f.AddSkillToCharacterForm(request.form)
     add_skill_form.skill_id.choices = skill_list
     if request.method =="POST" and add_skill_form.add_skill_submit.data and add_skill_form.validate():
-        if character.get_characters_player_id(character_id) != user_id:
+        if character_info.player_id != user_id:
             return render_template("error.html", message="Only character's player can add skills to them.")
         if character.add_skill(character_info.id, add_skill_form.skill_id.data):
             return redirect(f"/character/{character_info.id}")
@@ -142,6 +142,8 @@ def show_character(character_id):
     add_item_form = f.AddItemToCharacterForm(request.form)
     add_item_form.item_id.choices = item_list
     if request.method =="POST" and add_item_form.add_item_submit.data and add_item_form.validate():
+        if character_info.player_id != user_id:
+            return render_template("error.html", message="Only character's player can add items to them.")
         if character.add_item(character_info.id, add_item_form.item_id.data, add_item_form.amount.data):
             return redirect(f"/character/{character_info.id}")
         else:

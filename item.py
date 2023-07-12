@@ -12,6 +12,10 @@ def get_all_items():
 
 def exists(name):
     sql = text("SELECT id FROM item WHERE name=:name")
-    result = db.session.execute(sql, {"name":name})
-    item = result.fetchone()
-    return True if item else  False
+    result = db.session.execute(sql, {"name":name}).fetchone()
+    return True if result else False
+
+def item_exists(item_id):
+    sql = text("SELECT id FROM item WHERE id=:item_id")
+    result = db.session.execute(sql, {"item_id":item_id}).fetchone()
+    return True if result else False

@@ -95,6 +95,7 @@
       <p>{{ character.name }} currently has no items.</p>
     {% endif %}
 
+    {% if session.get("user_id") == character.player_id %}
     <p>
       <p>Add a new item to {{ character.name }}:</p>
       <form action="/character/{{character.id}}" method="POST">
@@ -106,5 +107,6 @@
         <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
       </form>
     </p>
+    {% endif %}
 
 {% endblock %}

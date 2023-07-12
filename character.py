@@ -2,6 +2,7 @@ from db import db
 from sqlalchemy.sql import text
 from flask import session
 import skill
+import item
 
 def create_character(name, class_id, level, strength, speed, intellect, combat, sanity, fear, body, max_hp, min_stress, description):
     player_id = session.get("user_id")
@@ -70,10 +71,9 @@ def delete_skill(character_id, skill_id):
     return True
 
 def add_item(character_id, item_id, amount):
-    character = get_characters_player_id(character_id)
-    sql = text("SELECT id FROM item WHERE id=:item_id")
-    item = db.session.execute(sql, {"item_id":item_id}).fetchone()
-    if not item or not character or session.get("user_id") != character.player_id:
+    is_character = character_exists(character_id)
+    is_item = item.item_exists(item_id)
+    if not is_item or not is_character:
         return False
     item_exists = has_item(character_id, item_id)
     if item_exists:
