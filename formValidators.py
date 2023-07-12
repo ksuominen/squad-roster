@@ -67,9 +67,8 @@ class EditCharacterForm(Form):
     description = StringField("Description")
 
 class AddSkillToCharacterForm(Form):
-    character_id = SelectField("Character", coerce=int, validators=[validators.InputRequired()])
     skill_id = SelectField("Skill", coerce=int, validators=[validators.InputRequired()])
-    add_skill_submit = SubmitField("Add skill to character")
+    add_skill_submit = SubmitField("Add")
 
 class AddItemToCharacterForm(Form):
     character_id = SelectField("Character", coerce=int, validators=[validators.InputRequired()])

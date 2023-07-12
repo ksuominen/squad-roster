@@ -54,6 +54,17 @@
     {% else %}
       <p>{{ character.name }} currently has no skills.</p>
     {% endif %}
+    <p>
+      <p>Add a new skill to {{ character.name }}:</p>
+      {% from "_formhelpers.html" import render_field %}
+      <form action="/character/{{character.id}}" method="POST">
+        <dl>
+          {{ render_field(add_skill_form.skill_id) }}
+          {{ render_field(add_skill_form.add_skill_submit) }}
+        </dl>
+        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+      </form>
+    </p>
 
   <h3>Items</h3>
   {% if items %}
