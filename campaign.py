@@ -33,6 +33,10 @@ def get_characters(campaign_id):
     sql = text("SELECT character.id, character.name, character.level, class.name as class_name FROM character INNER JOIN campaign ON character.campaign_id = campaign.id INNER JOIN class on character.class_id = class.id WHERE campaign.id = :campaign_id")
     return db.session.execute(sql, {"campaign_id":campaign_id}).fetchall()
 
+def get_available_characters(campaign_id):
+    sql = text("SELECT id, name FROM character WHERE campaign_id != :campaign_id OR campaign_id IS NULL")
+    return db.session.execute(sql, {"campaign_id":campaign_id}).fetchall()
+
 def is_player_in_campaign(player_id, campaign_id):
     sql = text("SELECT DISTINCT ON (campaign.id) campaign.id, campaign.gamemaster_id, character.id AS players_character_id FROM campaign INNER JOIN player ON campaign.gamemaster_id = player.id LEFT JOIN character ON campaign.id = character.campaign_id AND character.player_id = :player_id WHERE campaign.id = :campaign_id")
     result = db.session.execute(sql, {"player_id":player_id, "campaign_id":campaign_id}).fetchone()

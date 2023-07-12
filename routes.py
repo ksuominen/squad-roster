@@ -192,8 +192,8 @@ def show_campaign(campaign_id):
     
     characters = campaign.get_characters(campaign_id)
     form = f.AddCharacterToCampaignForm(request.form)
-    all_characters = character.get_all_characters()
-    character_list = [(i.id, i.name) for i in all_characters]
+    available_characters = campaign.get_available_characters(campaign_id)
+    character_list = [(i.id, i.name) for i in available_characters]
     form.character_id.choices = character_list
     if request.method == "POST" and session.get("user_name") == campaign_info.username and form.validate():
         campaign.add_character_to_campaign(form.character_id.data, campaign_id)
