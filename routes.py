@@ -123,12 +123,15 @@ def show_character(character_id):
     character_class = mothershipClasses.get_class(character_info.class_id)
     character_skills = character.get_character_skills(character_id)
     character_items = character.get_character_items(character_id)
+    user_id = session.get("user_id")
 
     available_skills = skill.get_available_skills(character_id)
     skill_list = [(i.id, i.name) for i in available_skills]
     add_skill_form = f.AddSkillToCharacterForm(request.form)
     add_skill_form.skill_id.choices = skill_list
     if request.method =="POST" and add_skill_form.add_skill_submit.data and add_skill_form.validate():
+        if character.get_characters_player_id(character_id) != user_id:
+            return render_template("error.html", message="Only character's player can add skills to them.")
         if character.add_skill(character_info.id, add_skill_form.skill_id.data):
             return redirect(f"/character/{character_info.id}")
         else:
@@ -169,13 +172,13 @@ def edit_character(character_id):
     return render_template("edit_character.html", form=form, character_id = character_info.id, character_name = character_info.name)
 
 @app.route("/character/<int:character_id>/skill/<int:skill_id>", methods=["POST"])
-#todo: can we use delete?
+#todo: käyttäjän oikeudet ja error-viesti?
 def delete_character_skill(character_id, skill_id):
     character.delete_skill(character_id, skill_id)
     return redirect(f"/character/{character_id}")
 
 @app.route("/character/<int:character_id>/item/<int:item_id>", methods=["POST"])
-#todo: can we use delete?
+#todo: käyttäjän oikeudet ja error-viesti?
 def delete_character_item(character_id, item_id):
     amount = int(request.form["amount"])
     character.delete_item(character_id, item_id, amount)

@@ -1,6 +1,7 @@
 from db import db
 from sqlalchemy.sql import text
 from flask import session
+import skill
 
 def create_character(name, class_id, level, strength, speed, intellect, combat, sanity, fear, body, max_hp, min_stress, description):
     player_id = session.get("user_id")
@@ -33,14 +34,18 @@ def get_character_info(character_id):
     return db.session.execute(sql, {"character_id":character_id}).fetchone()
 
 def get_characters_player_id(character_id):
-    sql = text("SELECT id, player_id FROM character WHERE id=:character_id")
+    sql = text("SELECT player_id FROM character WHERE id=:character_id")
     return db.session.execute(sql, {"character_id":character_id}).fetchone()
 
+def character_exists(character_id):
+    sql = text("SELECT id FROM character where id=:character_id")
+    result = db.session.execute(sql, {"character_id":character_id}).fetchone()
+    return True if result else False
+
 def add_skill(character_id, skill_id):
-    character = get_characters_player_id(character_id)
-    sql = text("SELECT id FROM skill WHERE id=:skill_id")
-    skill = db.session.execute(sql, {"skill_id":skill_id}).fetchone()
-    if not skill or not character or session.get("user_id") != character.player_id or has_skill(character_id, skill_id):
+    is_character = character_exists(character_id)
+    is_skill = skill.skill_exists(skill_id)
+    if not is_skill or not is_character or has_skill(character_id, skill_id):
         return False
     sql = text("INSERT INTO character_skill (character_id, skill_id) VALUES (:character_id,:skill_id)")
     db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})
