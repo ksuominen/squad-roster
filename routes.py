@@ -124,7 +124,7 @@ def show_character(character_id):
     character_skills = character.get_character_skills(character_id)
     character_items = character.get_character_items(character_id)
 
-    available_skills = skill.get_all_skills()
+    available_skills = skill.get_available_skills(character_id)
     skill_list = [(i.id, i.name) for i in available_skills]
     add_skill_form = f.AddSkillToCharacterForm(request.form)
     add_skill_form.skill_id.choices = skill_list

@@ -21,3 +21,7 @@ def get_expert_skills():
 def get_master_skills():
     sql = text("SELECT id, name, description FROM skill WHERE LOWER(level) = 'master'")
     return db.session.execute(sql).fetchall()
+
+def get_available_skills(character_id):
+    sql = text("SELECT skill.id, skill.name FROM skill WHERE NOT EXISTS (SELECT 1 FROM character_skill WHERE character_id=:character_id AND skill.id=skill_id)")
+    return db.session.execute(sql, {"character_id":character_id}).fetchall()
