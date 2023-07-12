@@ -24,6 +24,9 @@
       {% endif %}
     </ul>
   </p>
+  {% if session.get("user_id") == character.player_id %}
+    <p><a href="/character/{{character.id}}/edit">Edit {{ character.name }}</a></p>
+  {% endif %}
 
   <h3>Skills</h3>
   {% if skills %}

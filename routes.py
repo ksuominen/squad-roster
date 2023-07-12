@@ -148,6 +148,28 @@ def show_character(character_id):
     character_items = character.get_character_items(character_id)
     return render_template("character.html", character=character_info, character_class=character_class, character_campaign=character_campaign, skills=character_skills, items=character_items)
 
+@app.route("/character/<int:character_id>/edit", methods=["GET", "POST"])
+def edit_character(character_id):
+    character_info = character.get_character_info(character_id)
+    user_id = session.get("user_id")
+    #todo: gm can edit character
+    if not user_id or user_id != character_info.player_id:
+        return render_template("error.html", message="Sorry, you don't have access to this page.")
+    
+    available_classes = mothershipClasses.get_all_classes()
+    class_list=[(i.id, i.name) for i in available_classes]
+    form = f.EditCharacterForm(request.form)
+    form.name.default = character_info.name
+    form.class_id.choices = class_list
+    form.class_id.default = character_info.class_id
+    if request.method =="POST" and form.validate():
+        character.edit_character(character_id, form.name.data, form.class_id.data, form.level.data, form.strength.data, form.speed.data, form.intellect.data, \
+                                   form.combat.data, form.sanity.data, form.fear.data, form.body.data, form.max_hp.data, form.current_hp.data, \
+                                    form.min_stress.data, form.current_stress.data, form.description.data)
+        return redirect(f"/character/{character_id}")
+    
+    return render_template("edit_character.html", form=form, character_id = character_info.id, character_name = character_info.name)
+
 @app.route("/character/<int:character_id>/skill/<int:skill_id>", methods=["POST"])
 #todo: can we use delete?
 def delete_character_skill(character_id, skill_id):
