@@ -92,4 +92,17 @@
     {% else %}
       <p>{{ character.name }} currently has no items.</p>
     {% endif %}
+
+    <p>
+      <p>Add a new item to {{ character.name }}:</p>
+      <form action="/character/{{character.id}}" method="POST">
+        <dl>
+          {{ render_field(add_item_form.item_id) }}
+          {{ render_field(add_item_form.amount) }}
+          {{ render_field(add_item_form.add_item_submit) }}
+        </dl>
+        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+      </form>
+    </p>
+
 {% endblock %}

@@ -49,17 +49,11 @@ def ownpage():
         return render_template("error.html", message="Sorry, you don't have access to this page.")
     
     characters = character.get_player_characters()
-    character_list = [(i.id, i.name) for i in characters]
     available_classes = mothershipClasses.get_all_classes()
     class_list=[(i.id, i.name) for i in available_classes]
-    available_items = item.get_all_items()
-    item_list = [(i.id, i.name) for i in available_items]
     campaign_form = f.CreateCampaignForm(request.form)
     character_form = f.CreateCharacterForm(request.form)
     character_form.class_id.choices = class_list
-    add_item_form = f.AddItemToCharacterForm(request.form)
-    add_item_form.character_id.choices = character_list
-    add_item_form.item_id.choices = item_list
     gm_campaigns = campaign.get_all_gm_campaigns(username)
     
     if request.method =="POST" and campaign_form.campaign_submit.data and campaign_form.validate():
@@ -69,15 +63,8 @@ def ownpage():
         character.create_character(character_form.name.data, character_form.class_id.data, character_form.level.data, character_form.strength.data, character_form.speed.data, character_form.intellect.data, \
                                    character_form.combat.data, character_form.sanity.data, character_form.fear.data, character_form.body.data, character_form.max_hp.data, \
                                     character_form.min_stress.data, character_form.description.data)
-        return redirect("/ownpage")
-        
-    if request.method =="POST" and add_item_form.add_item_submit.data and add_item_form.validate():
-        if character.add_item(add_item_form.character_id.data, add_item_form.item_id.data, add_item_form.amount.data):
-            return redirect("/ownpage")
-        else:
-            return render_template("error.html", message="Could not add item.")
-    
-    return render_template("player.html", campaign_form=campaign_form, character_form=character_form, add_skill_form = add_skill_form, add_item_form = add_item_form, gm_campaigns = gm_campaigns, characters = characters)
+        return redirect("/ownpage")    
+    return render_template("player.html", campaign_form=campaign_form, character_form=character_form, gm_campaigns = gm_campaigns, characters = characters)
 
 @app.route("/items", methods=["GET", "POST"])
 def items():
@@ -146,8 +133,18 @@ def show_character(character_id):
             return redirect(f"/character/{character_info.id}")
         else:
             return render_template("error.html", message="Could not add skill.")
+        
+    available_items = item.get_all_items()
+    item_list = [(i.id, i.name) for i in available_items]
+    add_item_form = f.AddItemToCharacterForm(request.form)
+    add_item_form.item_id.choices = item_list
+    if request.method =="POST" and add_item_form.add_item_submit.data and add_item_form.validate():
+        if character.add_item(character_info.id, add_item_form.item_id.data, add_item_form.amount.data):
+            return redirect(f"/character/{character_info.id}")
+        else:
+            return render_template("error.html", message="Could not add item.")
 
-    return render_template("character.html", character=character_info, add_skill_form=add_skill_form, character_class=character_class, character_campaign=character_campaign, skills=character_skills, items=character_items)
+    return render_template("character.html", character=character_info, add_skill_form=add_skill_form, add_item_form=add_item_form, character_class=character_class, character_campaign=character_campaign, skills=character_skills, items=character_items)
 
 @app.route("/character/<int:character_id>/edit", methods=["GET", "POST"])
 def edit_character(character_id):

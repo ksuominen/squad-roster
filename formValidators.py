@@ -71,10 +71,9 @@ class AddSkillToCharacterForm(Form):
     add_skill_submit = SubmitField("Add")
 
 class AddItemToCharacterForm(Form):
-    character_id = SelectField("Character", coerce=int, validators=[validators.InputRequired()])
     item_id = SelectField("Item", coerce=int, validators=[validators.InputRequired()])
     amount = IntegerField("Amount (between 1 and 100):", validators=[validators.NumberRange(min=1, max=100, message="Amount needs to be between 1 and 100")])
-    add_item_submit = SubmitField("Add item to character")
+    add_item_submit = SubmitField("Add item")
 
 class AddCharacterToCampaignForm(Form):
     character_id = SelectField("Character", coerce=int, validators=[validators.InputRequired()])
