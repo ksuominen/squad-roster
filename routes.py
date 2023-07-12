@@ -174,14 +174,18 @@ def edit_character(character_id):
     return render_template("edit_character.html", form=form, character_id = character_info.id, character_name = character_info.name)
 
 @app.route("/character/<int:character_id>/skill/<int:skill_id>", methods=["POST"])
-#todo: käyttäjän oikeudet ja error-viesti?
 def delete_character_skill(character_id, skill_id):
+    character_player_id = character.get_characters_player_id(character_id).player_id
+    if session.get("user_id") != character_player_id:
+        return render_template("error.html", message="Only character's player can delete skills from them.")
     character.delete_skill(character_id, skill_id)
     return redirect(f"/character/{character_id}")
 
 @app.route("/character/<int:character_id>/item/<int:item_id>", methods=["POST"])
-#todo: käyttäjän oikeudet ja error-viesti?
 def delete_character_item(character_id, item_id):
+    character_player_id = character.get_characters_player_id(character_id).player_id
+    if session.get("user_id") != character_player_id:
+        return render_template("error.html", message="Only character's player can use items from them.")
     amount = int(request.form["amount"])
     character.delete_item(character_id, item_id, amount)
     return redirect(f"/character/{character_id}")

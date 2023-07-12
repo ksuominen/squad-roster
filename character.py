@@ -62,9 +62,6 @@ def has_skill(character_id, skill_id):
     return db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id}).fetchone()
 
 def delete_skill(character_id, skill_id):
-    character = get_characters_player_id(character_id)
-    if session.get("user_id") != character.player_id:
-        return False
     sql = text("DELETE FROM character_skill WHERE character_id=:character_id AND skill_id=:skill_id")
     db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})
     db.session.commit()
@@ -89,20 +86,15 @@ def add_item(character_id, item_id, amount):
     return True
 
 def delete_item(character_id, item_id, amount):
-    character = get_characters_player_id(character_id)
-    item_exists = has_item(character_id, item_id)
-    if not item_exists or session.get("user_id") != character.player_id:
-        return False
     if amount > 1:
         new_amount = amount -1
         sql = text("UPDATE character_item SET amount = :new_amount where character_id = :character_id AND item_id = :item_id")
         db.session.execute(sql, {"new_amount":new_amount, "character_id":character_id, "item_id":item_id})
         db.session.commit()
-        return True
-    sql = text("DELETE FROM character_item where character_id = :character_id AND item_id = :item_id")
-    db.session.execute(sql, {"character_id":character_id, "item_id":item_id})
-    db.session.commit()
-    return True
+    else:
+        ql = text("DELETE FROM character_item where character_id = :character_id AND item_id = :item_id")
+        db.session.execute(sql, {"character_id":character_id, "item_id":item_id})
+        db.session.commit()
 
 def get_character_items(character_id):
     sql = text("SELECT item.id, name, description, amount FROM item INNER JOIN character_item ON item_id = item.id WHERE character_id=:character_id")

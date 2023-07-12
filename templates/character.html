@@ -81,6 +81,7 @@
           <td>{{ item.name }}</td>
           <td>{{ item.description }}</td>
           <td>{{ item.amount }}</td>
+          {% if session.get("user_id") == character.player_id %}
           <td>
             <form action="/character/{{character.id}}/item/{{item.id}}" method="POST">
               <input type = "submit" value = "Use item"/>
@@ -88,6 +89,7 @@
               <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
             </form>
           </td>
+          {% endif %}
         </tr>
         {% endfor %}
     </table>
