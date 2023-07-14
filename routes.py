@@ -158,6 +158,14 @@ def remove_campaign_character(campaign_id, character_id):
     campaign.remove_character_from_campaign(character_id)
     return redirect(f"/campaign/{campaign_id}")
 
+@app.route("/campaign/<int:campaign_id>/delete", methods=["POST"])
+def remove_campaign(campaign_id):
+    user_id = session.get("user_id")
+    if not campaign.is_gm(user_id, campaign_id):
+        return render_template("error.html", message="Only the gamemaster can delete a campaign.")
+    campaign.delete_campaign(campaign_id)
+    return redirect("/ownpage")
+
 @app.route("/character/<int:character_id>", methods=["GET", "POST"])
 def show_character(character_id):
     character_info = character.get_character_info(character_id)

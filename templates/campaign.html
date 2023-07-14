@@ -39,5 +39,11 @@
         <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
 	    </form>
     </p>
+    <p>
+      <form action="/campaign/{{campaign.id}}/delete" method="POST">
+	      <input type="submit" value="Delete campaign">
+        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+	    </form>
+    </p>
   {% endif %}
 {% endblock %}

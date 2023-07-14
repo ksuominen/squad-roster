@@ -57,3 +57,11 @@ def remove_character_from_campaign(character_id):
     db.session.execute(sql, {"character_id":character_id})
     db.session.commit()
     return True
+
+def delete_campaign(campaign_id):
+    sql = text("UPDATE character SET campaign_id = NULL WHERE campaign_id = :campaign_id")
+    db.session.execute(sql, {"campaign_id":campaign_id})
+    db.session.commit()
+    sql = text("DELETE FROM campaign WHERE id=:campaign_id")
+    db.session.execute(sql, {"campaign_id":campaign_id})
+    db.session.commit()
