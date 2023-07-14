@@ -26,19 +26,6 @@
     {% endif %}
   </p>
   {% if session.get("is_admin") %}
-  <p>
-    <p>Add a new class:</p>
-    {% from "_formhelpers.html" import render_field %}
-    <form action="/classes" method="POST">
-      <dl>
-        {{ render_field(form.name) }}
-        {{ render_field(form.stat_adjustment) }}
-        {{ render_field(form.trauma_response) }}
-        {{ render_field(form.class_skills) }}
-      </dl>
-	<input type="submit" value="Add new">
-  <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-	</form>
-  </p>
+    <p><a href="/class/add">Create a new class</a></p>
   {% endif %}
 {% endblock %}

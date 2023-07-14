@@ -89,13 +89,18 @@ def add_skill():
 @app.route("/classes", methods=["GET", "POST"])
 def classes():
     all_classes = mothershipClasses.get_all_classes()
-    form = f.CreateClassForm(request.form)
+    return render_template("classes.html", classes=all_classes)
 
-    if request.method == "POST" and form.validate() and session.get("is_admin"):
+@app.route("/class/add", methods=["GET", "POST"])
+def add_class():
+    form = f.CreateClassForm(request.form)
+    if not session.get("is_admin"):
+        return render_template("error.html", message="Only admins can create new classes.")
+    if request.method == "POST" and form.validate():
         mothershipClasses.add_class(form.name.data, form.stat_adjustment.data, form.trauma_response.data, form.class_skills.data)
         return redirect("/classes")
-
-    return render_template("classes.html", form=form, classes=all_classes)
+    
+    return render_template("class_add.html", form=form)
     
 @app.route("/campaigns", methods=["GET"])
 def campaigns():
