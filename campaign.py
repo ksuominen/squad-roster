@@ -34,7 +34,7 @@ def get_all_campaigns_with_player(player_id):
     return db.session.execute(sql, {"player_id":player_id}).fetchall()
 
 def get_characters(campaign_id):
-    sql = text("SELECT character.id, character.name, character.level, class.name as class_name FROM character INNER JOIN campaign ON character.campaign_id = campaign.id INNER JOIN class on character.class_id = class.id WHERE campaign.id = :campaign_id")
+    sql = text("SELECT character.id, character.player_id, character.name, character.level, class.name as class_name FROM character INNER JOIN campaign ON character.campaign_id = campaign.id INNER JOIN class on character.class_id = class.id WHERE campaign.id = :campaign_id")
     return db.session.execute(sql, {"campaign_id":campaign_id}).fetchall()
 
 def get_available_characters(campaign_id):

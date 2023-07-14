@@ -148,6 +148,16 @@ def show_campaign(campaign_id):
     
     return render_template("campaign.html", form=form, campaign=campaign_info, characters=characters, is_gm=is_gm)
 
+@app.route("/campaign/<int:campaign_id>/remove/<int:character_id>", methods=["POST"])
+def remove_campaign_character(campaign_id, character_id):
+    character_player_id = character.get_characters_player_id(character_id).player_id
+    user_id = session.get("user_id")
+    can_remove_character = user_id == character_player_id or campaign.is_gm(user_id, campaign_id)
+    if not can_remove_character:
+        return render_template("error.html", message="Only character's player or campaign's gamemaster can remove a character from a campaign.")
+    campaign.remove_character_from_campaign(character_id)
+    return redirect(f"/campaign/{campaign_id}")
+
 @app.route("/character/<int:character_id>", methods=["GET", "POST"])
 def show_character(character_id):
     character_info = character.get_character_info(character_id)

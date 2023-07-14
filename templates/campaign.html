@@ -14,7 +14,13 @@
   {% if characters %}
     <ul>
       {% for character in characters %}
-      <li><a href="/character/{{character.id}}">{{ character.name }}</a>, a level {{ character.level }} {{ character.class_name }}</li>
+      <li><a href="/character/{{character.id}}">{{ character.name }}</a>, a level {{ character.level }} {{ character.class_name }}      </li>
+      {% if is_gm or character.player_id == session.get("user_id") %}
+      <form action="/campaign/{{campaign.id}}/remove/{{character.id}}" method="POST">
+        <input type = "submit" value = "Remove from campaign"/>
+        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+      </form>
+      {% endif %}
       {% endfor %}
     </ul>
     {% else %}
