@@ -296,6 +296,11 @@ def edit_character(character_id):
     form.class_id.choices = class_list
     form.class_id.default = character_info.class_id
     if request.method =="POST" and form.validate():
+        if form.current_hp.data > form.max_hp.data:
+            return render_template("error.html", message="Current hp can't be more than max hp.")
+        if form.current_stress.data < form.min_stress.data:
+            return render_template("error.html", message="Current stress can't be less than min stress.")
+
         character.edit_character(character_id, form.name.data, form.class_id.data, form.level.data, form.strength.data, form.speed.data, form.intellect.data, \
                                    form.combat.data, form.sanity.data, form.fear.data, form.body.data, form.max_hp.data, form.current_hp.data, \
                                     form.min_stress.data, form.current_stress.data, form.description.data)
