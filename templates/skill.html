@@ -10,11 +10,15 @@
       <tr>
         <th>Name</th>
         <th>Description</th>
+        <th></th>
       </tr>
       {% for skill in trained_skills %}
         <tr>
           <td>{{ skill.name }}</td>
           <td>{{ skill.description }}</td>
+          {% if session.get("is_admin") %}
+          <td><a href="/skill/{{skill.id}}/edit">Edit skill</a></td>
+          {% endif %}
         </tr>
       {% endfor %}
     </table>
@@ -29,11 +33,15 @@
       <tr>
         <th>Name</th>
         <th>Description</th>
+        <th></th>
       </tr>
       {% for skill in expert_skills %}
         <tr>
           <td>{{ skill.name }}</td>
           <td>{{ skill.description }}</td>
+          {% if session.get("is_admin") %}
+          <td><a href="/skill/{{skill.id}}/edit">Edit skill</a></td>
+          {% endif %}
         </tr>
       {% endfor %}
     </table>
@@ -48,11 +56,15 @@
       <tr>
         <th>Name</th>
         <th>Description</th>
+        <th></th>
       </tr>
       {% for skill in master_skills %}
         <tr>
           <td>{{ skill.name }}</td>
           <td>{{ skill.description }}</td>
+          {% if session.get("is_admin") %}
+          <td><a href="/skill/{{skill.id}}/edit">Edit skill</a></td>
+          {% endif %}
         </tr>
       {% endfor %}
     </table>

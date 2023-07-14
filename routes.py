@@ -103,6 +103,18 @@ def add_skill():
         return redirect("/skills")
     
     return render_template("skill_add.html", form=form)
+
+@app.route("/skill/<int:skill_id>/edit", methods=["GET", "POST"])
+def edit_skill(skill_id):
+    if not session.get("is_admin"):
+        return render_template("error.html", message="Sorry, only admins can edit skills.")
+    
+    form = f.CreateSkillForm(request.form)
+    if request.method == "POST" and form.validate():
+        skill.edit_skill(skill_id, form.name.data, form.description.data, form.level.data)
+        return redirect(f"/skills")
+    
+    return render_template("skill_edit.html", form=form, skill_id=skill_id)
     
 @app.route("/classes", methods=["GET", "POST"])
 def classes():
