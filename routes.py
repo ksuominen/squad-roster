@@ -213,6 +213,14 @@ def delete_character_item(character_id, item_id):
     character.delete_item(character_id, item_id, amount)
     return redirect(f"/character/{character_id}")
 
+@app.route("/character/<int:character_id>/delete", methods=["POST"])
+def remove_character(character_id):
+    character_player_id = character.get_characters_player_id(character_id).player_id
+    if session.get("user_id") != character_player_id:
+        return render_template("error.html", message="Only character's player delete them.")
+    character.delete_character(character_id)
+    return redirect("/ownpage")
+
 @app.route("/campaign/<int:campaign_id>", methods=["GET", "POST"])
 def show_campaign(campaign_id):
     campaign_info = campaign.get_campaign(campaign_id)

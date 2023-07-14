@@ -21,6 +21,11 @@ def edit_character(id, name, class_id, level, strength, speed, intellect, combat
                                 "min_stress":min_stress, "current_stress":current_stress, "description":description, "id":id})
     db.session.commit()
 
+def delete_character(character_id):
+    sql = text("DELETE FROM character WHERE id=:character_id")
+    db.session.execute(sql, {"character_id":character_id})
+    db.session.commit()
+
 def get_all_characters():
     sql = text("SELECT id, name FROM character")
     return db.session.execute(sql).fetchall()

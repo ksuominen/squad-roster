@@ -111,4 +111,13 @@
     </p>
     {% endif %}
 
+    {% if session.get("user_id") == character.player_id %}
+    <p>
+      <form action="/character/{{character.id}}/delete" method="POST">
+        <input type = "submit" value = "Delete character"/>
+        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+      </form>
+    </p>
+    {% endif %}
+
 {% endblock %}
