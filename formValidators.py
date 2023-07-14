@@ -30,7 +30,6 @@ class CreateItemForm(Form):
 class CreateCampaignForm(Form):
     name = StringField("Name", [validators.Length(min=4, max=200)])
     description = StringField("Description")
-    campaign_submit = SubmitField("Add new")
 
 class CreateCharacterForm(Form):
     name = StringField("Name", [validators.Length(min=4, max=50)])

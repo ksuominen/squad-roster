@@ -51,20 +51,16 @@ def ownpage():
     characters = character.get_player_characters()
     available_classes = mothershipClasses.get_all_classes()
     class_list=[(i.id, i.name) for i in available_classes]
-    campaign_form = f.CreateCampaignForm(request.form)
     character_form = f.CreateCharacterForm(request.form)
     character_form.class_id.choices = class_list
     gm_campaigns = campaign.get_all_gm_campaigns(user_id)
     
-    if request.method =="POST" and campaign_form.campaign_submit.data and campaign_form.validate():
-        campaign.create_campaign(campaign_form.name.data, campaign_form.description.data)
-        return redirect("/ownpage")
     if request.method =="POST" and character_form.character_submit.data and character_form.validate():
         character.create_character(character_form.name.data, character_form.class_id.data, character_form.level.data, character_form.strength.data, character_form.speed.data, character_form.intellect.data, \
                                    character_form.combat.data, character_form.sanity.data, character_form.fear.data, character_form.body.data, character_form.max_hp.data, \
                                     character_form.min_stress.data, character_form.description.data)
         return redirect("/ownpage")    
-    return render_template("player.html", campaign_form=campaign_form, character_form=character_form, gm_campaigns = gm_campaigns, characters = characters)
+    return render_template("player.html", character_form=character_form, gm_campaigns = gm_campaigns, characters = characters)
 
 @app.route("/items", methods=["GET", "POST"])
 def items():
@@ -113,6 +109,16 @@ def campaigns():
     
     all_campaigns = campaign.get_all_campaigns()
     return render_template("campaigns.html", form=form, campaigns = all_campaigns)
+
+@app.route("/campaign/add", methods=["GET", "POST"])
+def add_campaign():
+    form = f.CreateCampaignForm(request.form)
+    if not session.get("user_id"):
+        return render_template("error.html", message="You must be logged in to create a campaign.")
+    if request.method =="POST" and form.validate():
+        campaign.create_campaign(form.name.data, form.description.data)
+        return redirect("/ownpage")
+    return render_template("campaign_add.html", form=form)
 
 @app.route("/character/<int:character_id>", methods=["GET", "POST"])
 def show_character(character_id):

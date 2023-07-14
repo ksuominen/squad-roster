@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}Add campaign{% endblock %}
+{% block content %}   
+  <h3>Add a new campaign:</h3>
+  <p>
+    {% from "_formhelpers.html" import render_field %}
+    <form action="/campaign/add" method="POST">
+      <dl>
+        {{ render_field(form.name) }}
+        {{ render_field(form.description) }}
+      </dl>
+      <input type="submit" value="Submit">
+      <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+    </form>
+  </p>  
+{% endblock %}

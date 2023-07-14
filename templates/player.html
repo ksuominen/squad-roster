@@ -2,12 +2,12 @@
 
 {% block title %}{{ session.user_name }}{% endblock %}
 {% block content %}
-    
+{% from "_formhelpers.html" import render_field %}    
     <h2>{{ session.user_name }}'s page</h2>
 
     <p>
-        {% if gm_campaigns %}
         <h3>Campaigns where you are the gamemaster</h3>
+        {% if gm_campaigns %}
         <table>
           <tr>
             <th>Name</th>
@@ -24,18 +24,9 @@
           <p>You aren't the gamemaster in any campaigns.</p>
         {% endif %}
       </p>
-      <p>
-        <p>Add a new campaign:</p>
-        {% from "_formhelpers.html" import render_field %}
-        <form action="/ownpage" method="POST">
-          <dl>
-            {{ render_field(campaign_form.name) }}
-            {{ render_field(campaign_form.description) }}
-            {{ render_field(campaign_form.campaign_submit) }}
-          </dl>
-          <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-        </form>
-      </p>
+
+      <p><a href="/campaign/add">Add a new campaign</a></p>
+
       <h3>Your characters</h3>
       <p>
         {% if characters %}
