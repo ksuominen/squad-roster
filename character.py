@@ -4,8 +4,7 @@ from flask import session
 import skill
 import item
 
-def create_character(name, class_id, level, strength, speed, intellect, combat, sanity, fear, body, max_hp, min_stress, description):
-    player_id = session.get("user_id")
+def create_character(name, class_id, level, strength, speed, intellect, combat, sanity, fear, body, max_hp, min_stress, description, player_id):
     sql = text("INSERT INTO character (name, class_id, player_id, level, strength, speed, intellect, combat, sanity, fear, body, max_hp, current_hp, min_stress, current_stress, description) \
                VALUES (:name,:class_id,:player_id,:level,:strength,:speed,:intellect,:combat,:sanity,:fear,:body,:max_hp,:max_hp,:min_stress,:min_stress,:description)")
     db.session.execute(sql, {"name":name, "class_id":class_id, "player_id":player_id, "level":level, "strength":strength, "speed":speed,\
@@ -30,8 +29,7 @@ def get_all_characters():
     sql = text("SELECT id, name FROM character")
     return db.session.execute(sql).fetchall()
 
-def get_player_characters():
-    player_id = session.get("user_id")
+def get_player_characters(player_id):
     sql = text("SELECT id, name FROM character WHERE player_id =:player_id")
     return db.session.execute(sql, {"player_id":player_id}).fetchall()
 
@@ -49,10 +47,6 @@ def character_exists(character_id):
     return True if result else False
 
 def add_skill(character_id, skill_id):
-    is_character = character_exists(character_id)
-    is_skill = skill.skill_exists(skill_id)
-    if not is_skill or not is_character or has_skill(character_id, skill_id):
-        return False
     sql = text("INSERT INTO character_skill (character_id, skill_id) VALUES (:character_id,:skill_id)")
     db.session.execute(sql, {"character_id":character_id, "skill_id":skill_id})
     db.session.commit()
@@ -73,22 +67,17 @@ def delete_skill(character_id, skill_id):
     return True
 
 def add_item(character_id, item_id, amount):
-    is_character = character_exists(character_id)
-    is_item = item.item_exists(item_id)
-    if not is_item or not is_character:
-        return False
     item_exists = has_item(character_id, item_id)
     if item_exists:
         new_amount = item_exists.amount + amount
         sql = text("UPDATE character_item SET amount = :new_amount WHERE id=:id")
         db.session.execute(sql, {"new_amount":new_amount, "id":item_exists.id})
         db.session.commit()
-        return True
+        return 
 
     sql = text("INSERT INTO character_item (character_id, item_id, amount) VALUES (:character_id,:item_id,:amount)")
     db.session.execute(sql, {"character_id":character_id, "item_id":item_id, "amount":amount})
     db.session.commit()
-    return True
 
 def delete_item(character_id, item_id, amount):
     if amount > 1:

@@ -56,13 +56,13 @@ CREATE TABLE campaign (
 
 CREATE TABLE character_item (
     id SERIAL PRIMARY KEY,
-    character_id INTEGER REFERENCES player NOT NULL,
+    character_id INTEGER REFERENCES character NOT NULL,
     item_id INTEGER REFERENCES item NOT NULL,
     amount INTEGER NOT NULL
 );
 
 CREATE TABLE character_skill (
     id SERIAL PRIMARY KEY,
-    character_id INTEGER REFERENCES player NOT NULL,
+    character_id INTEGER REFERENCES character NOT NULL,
     skill_id INTEGER REFERENCES skill NOT NULL
 );

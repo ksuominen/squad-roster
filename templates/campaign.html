@@ -21,7 +21,7 @@
       <p>This campaign currently has no characters.</p>
     {% endif %}
 
-  {% if session.get("user_name") == campaign.username %}
+  {% if is_gm %}
     <p>
       <p>Add a new character to this campaign:</p>
       {% from "_formhelpers.html" import render_field %}
