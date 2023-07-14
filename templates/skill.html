@@ -61,18 +61,6 @@
     {% endif %}
   </p>
   {% if session.get("is_admin") %}
-  <p>
-    <p>Add a new skill:</p>
-    {% from "_formhelpers.html" import render_field %}
-    <form action="/skills" method="POST">
-      <dl>
-        {{ render_field(form.name) }}
-        {{ render_field(form.description) }}
-        {{ render_field(form.level) }}
-      </dl>
-	<input type="submit" value="Add new">
-  <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-	</form>
-  </p>
+    <p><a href="/skill/add">Add a new skill</a></p>
   {% endif %}
 {% endblock %}

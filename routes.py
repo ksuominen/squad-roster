@@ -67,18 +67,24 @@ def items():
 
     return render_template("items.html", form=form, items=items)
 
-@app.route("/skills", methods=["GET", "POST"])
+@app.route("/skills", methods=["GET"])
 def skills():
-    form = f.CreateSkillForm(request.form)
     trained_skills = skill.get_trained_skills()
     expert_skills = skill.get_expert_skills()
     master_skills = skill.get_master_skills()
+    
+    return render_template("skill.html", trained_skills=trained_skills, expert_skills=expert_skills, master_skills=master_skills)
 
-    if request.method == "POST" and form.validate() and session.get("is_admin"):
+@app.route("/skill/add", methods=["GET", "POST"])
+def add_skill():
+    form = f.CreateSkillForm(request.form)
+    if not session.get("is_admin"):
+        return render_template("error.html", message="Only admins can create new skills.")
+    if request.method == "POST" and form.validate():
         skill.add_skill(form.name.data, form.description.data, form.level.data)
         return redirect("/skills")
     
-    return render_template("skill.html", form=form, trained_skills=trained_skills, expert_skills=expert_skills, master_skills=master_skills)
+    return render_template("skill_add.html", form=form)
     
 @app.route("/classes", methods=["GET", "POST"])
 def classes():
