@@ -83,6 +83,8 @@ def edit_item(item_id):
         item.edit_item(item_id, form.name.data, form.description.data)
         return redirect(f"/items")
     
+    editable_item = item.get_item(item_id)
+    form.process(obj=editable_item)
     return render_template("item_edit.html", form=form, item_id=item_id)
 
 @app.route("/skills", methods=["GET"])
@@ -114,6 +116,8 @@ def edit_skill(skill_id):
         skill.edit_skill(skill_id, form.name.data, form.description.data, form.level.data)
         return redirect(f"/skills")
     
+    editable_skill = skill.get_skill(skill_id)
+    form.process(obj=editable_skill)
     return render_template("skill_edit.html", form=form, skill_id=skill_id)
     
 @app.route("/classes", methods=["GET", "POST"])
@@ -142,6 +146,8 @@ def edit_class(class_id):
         mothershipClasses.edit_class(class_id, form.name.data, form.stat_adjustment.data, form.trauma_response.data, form.class_skills.data)
         return redirect(f"/classes")
     
+    editable_class = mothershipClasses.get_class(class_id)
+    form.process(obj=editable_class)
     return render_template("class_edit.html", form=form, class_id=class_id)
     
 @app.route("/campaigns", methods=["GET"])
@@ -176,6 +182,8 @@ def edit_campaign(campaign_id):
         campaign.edit_campaign(campaign_id, form.name.data, form.description.data)
         return redirect(f"/campaigns")
     
+    editable_campaign = campaign.get_campaign(campaign_id)
+    form.process(obj=editable_campaign)
     return render_template("campaign_edit.html", form=form, campaign_id=campaign_id)
 
 @app.route("/campaign/<int:campaign_id>", methods=["GET", "POST"])
@@ -293,6 +301,7 @@ def edit_character(character_id):
                                     form.min_stress.data, form.current_stress.data, form.description.data)
         return redirect(f"/character/{character_id}")
     
+    form.process(obj=character_info)
     return render_template("character_edit.html", form=form, character_id = character_info.id, character_name = character_info.name)
 
 @app.route("/character/<int:character_id>/skill/<int:skill_id>", methods=["POST"])

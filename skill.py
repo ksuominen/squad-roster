@@ -11,6 +11,10 @@ def edit_skill(id, name, description, level):
     db.session.execute(sql, {"id":id, "name":name, "description":description, "level":level})
     db.session.commit()
 
+def get_skill(skill_id):
+    sql = text("SELECT * FROM skill WHERE id=:skill_id")
+    return db.session.execute(sql, {"skill_id":skill_id}).fetchone()
+
 def get_all_skills():
     sql = text("SELECT id, name, description, level FROM skill ORDER BY name")
     return db.session.execute(sql).fetchall()

@@ -15,6 +15,10 @@ def get_all_items():
     sql = text("SELECT id, name, description FROM item ORDER BY name")
     return db.session.execute(sql).fetchall()
 
+def get_item(item_id):
+    sql = text("SELECT * FROM item WHERE id=:item_id")
+    return db.session.execute(sql, {"item_id":item_id}).fetchone()
+
 def exists(name):
     sql = text("SELECT id FROM item WHERE name=:name")
     result = db.session.execute(sql, {"name":name}).fetchone()
