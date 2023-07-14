@@ -253,7 +253,8 @@ def edit_character(character_id):
     character_info = character.get_character_info(character_id)
     user_id = session.get("user_id")
     #todo: gm can edit character
-    if not user_id or user_id != character_info.player_id:
+    can_edit = user_id == character_info.player_id or campaign.is_gm(user_id, character_info.campaign_id)
+    if not user_id or not can_edit:
         return render_template("error.html", message="Sorry, you don't have access to this page.")
     
     available_classes = mothershipClasses.get_all_classes()

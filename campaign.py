@@ -13,7 +13,7 @@ def get_all_campaigns():
     return db.session.execute(sql).fetchall()
 
 def get_campaign(campaign_id):
-    sql = text("SELECT campaign.id, campaign.name, campaign.description, player.username FROM campaign INNER JOIN player ON campaign.gamemaster_id = player.id WHERE campaign.id = :campaign_id")
+    sql = text("SELECT campaign.id, campaign.name, campaign.description, campaign.gamemaster_id, player.username FROM campaign INNER JOIN player ON campaign.gamemaster_id = player.id WHERE campaign.id = :campaign_id")
     return db.session.execute(sql, {"campaign_id":campaign_id}).fetchone()  
 
 def is_gm(player_id, campaign_id):

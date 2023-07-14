@@ -25,7 +25,7 @@
       {% endif %}
     </ul>
   </p>
-  {% if session.get("user_id") == character.player_id %}
+  {% if session.get("user_id") == character.player_id or session.get("user_id") == character_campaign.gamemaster_id %}
     <p><a href="/character/{{character.id}}/edit">Edit {{ character.name }}</a></p>
   {% endif %}
 
