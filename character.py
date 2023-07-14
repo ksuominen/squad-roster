@@ -21,6 +21,12 @@ def edit_character(id, name, class_id, level, strength, speed, intellect, combat
     db.session.commit()
 
 def delete_character(character_id):
+    sql = text("DELETE FROM character_skill WHERE character_id=:character_id")
+    db.session.execute(sql, {"character_id":character_id})
+    db.session.commit()
+    sql = text("DELETE FROM character_item WHERE character_id=:character_id")
+    db.session.execute(sql, {"character_id":character_id})
+    db.session.commit()
     sql = text("DELETE FROM character WHERE id=:character_id")
     db.session.execute(sql, {"character_id":character_id})
     db.session.commit()
