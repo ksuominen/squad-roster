@@ -22,17 +22,6 @@
     {% endif %}
   </p>
   {% if session.get("is_admin") %}
-  <p>
-    <p>Add a new item:</p>
-    {% from "_formhelpers.html" import render_field %}
-    <form action="/items" method="POST">
-      <dl>
-        {{ render_field(form.name) }}
-        {{ render_field(form.description) }}
-      </dl>
-		<input type="submit" value="Add new">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-	</form>
-  </p>
+    <p><a href="/item/add">Create a new item</a></p>
   {% endif %}
 {% endblock %}

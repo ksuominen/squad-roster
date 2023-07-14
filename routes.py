@@ -53,19 +53,25 @@ def ownpage():
   
     return render_template("player.html", gm_campaigns = gm_campaigns, characters = characters)
 
-@app.route("/items", methods=["GET", "POST"])
+@app.route("/items", methods=["GET"])
 def items():
-    form = f.CreateItemForm(request.form)
     items = item.get_all_items()
+    return render_template("items.html", items=items)
 
-    if request.method == "POST" and form.validate() and session.get("is_admin"):
+@app.route("/item/add", methods=["GET", "POST"])
+def add_item():
+    form = f.CreateItemForm(request.form)
+    if not session.get("is_admin"):
+        return render_template("error.html", message="Only admins can create new items.")
+    
+    if request.method == "POST" and form.validate():
         if item.exists(form.name.data):
             return render_template("error.html", message="An item already exists with that name.")
         else:
             item.add_item(form.name.data, form.description.data)
             return redirect("/items")
-
-    return render_template("items.html", form=form, items=items)
+    
+    return render_template("item_add.html", form=form)
 
 @app.route("/skills", methods=["GET"])
 def skills():
