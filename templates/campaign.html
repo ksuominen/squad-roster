@@ -2,6 +2,7 @@
 
 {% block title %}{{ campaign.name }}{% endblock %}
 {% block content %}
+{% from "_formhelpers.html" import render_field %}
   <h2>{{ campaign.name }}</h2>
   <p>
     <ul>
@@ -9,6 +10,10 @@
       <li>Gamemaster: {{ campaign.username }}</li>
     </ul>
   </p>
+
+  {% if is_gm %}
+    <p><a href="/campaign/{{campaign.id}}/edit">Edit campaign</a></p>
+  {% endif %}
 
   <h3>Characters in this campaign:</h3>
   {% if characters %}
@@ -30,7 +35,6 @@
   {% if is_gm %}
     <p>
       <p>Add a new character to this campaign:</p>
-      {% from "_formhelpers.html" import render_field %}
       <form action="/campaign/{{campaign.id}}" method="POST">
         <dl>
           {{ render_field(form.character_id) }}

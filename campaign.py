@@ -8,6 +8,11 @@ def create_campaign(name, description, gamemaster_id):
     db.session.execute(sql, {"name":name, "description":description, "gamemaster_id":gamemaster_id})
     db.session.commit()
 
+def edit_campaign(id, name, description):
+    sql = text("UPDATE campaign SET name=:name, description=:description WHERE id=:id")
+    db.session.execute(sql, {"id":id, "name":name, "description":description})
+    db.session.commit()
+
 def get_all_campaigns():
     sql = text("SELECT campaign.id, campaign.name, campaign.description, campaign.gamemaster_id, player.username FROM campaign INNER JOIN player ON gamemaster_id = player.id")
     return db.session.execute(sql).fetchall()

@@ -153,6 +153,19 @@ def add_campaign():
         return redirect("/ownpage")
     return render_template("campaign_add.html", form=form)
 
+@app.route("/campaign/<int:campaign_id>/edit", methods=["GET", "POST"])
+def edit_campaign(campaign_id):
+    user_id = session.get("user_id")
+    if not user_id or not campaign.is_gm(user_id, campaign_id):
+        return render_template("error.html", message="Sorry, only gamemaster can edit the campaign.")
+    
+    form = f.CreateCampaignForm(request.form)
+    if request.method =="POST" and form.validate():
+        campaign.edit_campaign(campaign_id, form.name.data, form.description.data)
+        return redirect(f"/campaigns")
+    
+    return render_template("campaign_edit.html", form=form, campaign_id=campaign_id)
+
 @app.route("/campaign/<int:campaign_id>", methods=["GET", "POST"])
 def show_campaign(campaign_id):
     campaign_info = campaign.get_campaign(campaign_id)
@@ -252,7 +265,6 @@ def add_character():
 def edit_character(character_id):
     character_info = character.get_character_info(character_id)
     user_id = session.get("user_id")
-    #todo: gm can edit character
     can_edit = user_id == character_info.player_id or campaign.is_gm(user_id, character_info.campaign_id)
     if not user_id or not can_edit:
         return render_template("error.html", message="Sorry, you don't have access to this page.")
