@@ -49,18 +49,9 @@ def ownpage():
         return render_template("error.html", message="Sorry, you don't have access to this page.")
     
     characters = character.get_player_characters()
-    available_classes = mothershipClasses.get_all_classes()
-    class_list=[(i.id, i.name) for i in available_classes]
-    character_form = f.CreateCharacterForm(request.form)
-    character_form.class_id.choices = class_list
     gm_campaigns = campaign.get_all_gm_campaigns(user_id)
-    
-    if request.method =="POST" and character_form.character_submit.data and character_form.validate():
-        character.create_character(character_form.name.data, character_form.class_id.data, character_form.level.data, character_form.strength.data, character_form.speed.data, character_form.intellect.data, \
-                                   character_form.combat.data, character_form.sanity.data, character_form.fear.data, character_form.body.data, character_form.max_hp.data, \
-                                    character_form.min_stress.data, character_form.description.data)
-        return redirect("/ownpage")    
-    return render_template("player.html", character_form=character_form, gm_campaigns = gm_campaigns, characters = characters)
+  
+    return render_template("player.html", gm_campaigns = gm_campaigns, characters = characters)
 
 @app.route("/items", methods=["GET", "POST"])
 def items():
@@ -157,6 +148,21 @@ def show_character(character_id):
 
     return render_template("character.html", character=character_info, add_skill_form=add_skill_form, add_item_form=add_item_form, character_class=character_class, character_campaign=character_campaign, skills=character_skills, items=character_items)
 
+@app.route("/character/add", methods=["GET", "POST"])
+def add_character():
+    form = f.CreateCharacterForm(request.form)
+    available_classes = mothershipClasses.get_all_classes()
+    class_list=[(i.id, i.name) for i in available_classes]
+    form.class_id.choices = class_list
+    if not session.get("user_id"):
+        return render_template("error.html", message="You must be logged in to create a character.")
+    if request.method =="POST" and form.validate():
+        character.create_character(form.name.data, form.class_id.data, form.level.data, form.strength.data, form.speed.data, form.intellect.data, \
+                                   form.combat.data, form.sanity.data, form.fear.data, form.body.data, form.max_hp.data, \
+                                    form.min_stress.data, form.description.data)
+        return redirect("/ownpage")  
+    return render_template("character_add.html", form=form)
+
 @app.route("/character/<int:character_id>/edit", methods=["GET", "POST"])
 def edit_character(character_id):
     character_info = character.get_character_info(character_id)
@@ -177,7 +183,7 @@ def edit_character(character_id):
                                     form.min_stress.data, form.current_stress.data, form.description.data)
         return redirect(f"/character/{character_id}")
     
-    return render_template("edit_character.html", form=form, character_id = character_info.id, character_name = character_info.name)
+    return render_template("character_edit.html", form=form, character_id = character_info.id, character_name = character_info.name)
 
 @app.route("/character/<int:character_id>/skill/<int:skill_id>", methods=["POST"])
 def delete_character_skill(character_id, skill_id):

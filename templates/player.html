@@ -44,26 +44,7 @@
           <p>You don't have any characters yet.</p>
         {% endif %}
       </p>
-      <p>
-        <p>Add a new character:</p>
-        <form action="/ownpage" method="POST">
-          <dl>
-            {{ render_field(character_form.name) }}
-            {{ render_field(character_form.class_id) }}
-            {{ render_field(character_form.level) }}
-            {{ render_field(character_form.strength) }}
-            {{ render_field(character_form.speed) }}
-            {{ render_field(character_form.intellect) }}
-            {{ render_field(character_form.combat) }}
-            {{ render_field(character_form.sanity) }}
-            {{ render_field(character_form.fear) }}
-            {{ render_field(character_form.body) }}
-            {{ render_field(character_form.max_hp) }}
-            {{ render_field(character_form.min_stress) }}
-            {{ render_field(character_form.description) }}
-            {{ render_field(character_form.character_submit) }}
-          </dl>
-          <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-        </form>
-      </p>
+
+      <p><a href="/character/add">Add a new character</a></p>
+      
 {% endblock %}

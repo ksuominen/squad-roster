@@ -45,7 +45,6 @@ class CreateCharacterForm(Form):
     max_hp = IntegerField("Max hp (between 20 and 100):", validators=[validators.NumberRange(min=20, max=100, message="Max hp needs to be between 20 and 100")])
     min_stress = IntegerField("Min stress (between 2 and 100):", validators=[validators.NumberRange(min=2, max=100, message="Min stress needs to be between 2 and 100")])
     description = StringField("Description")
-    character_submit = SubmitField("Add new")
 
 class EditCharacterForm(Form):
     name = StringField("Name", [validators.Length(min=4, max=50)])
