@@ -92,7 +92,7 @@ def delete_item(character_id, item_id, amount):
         db.session.execute(sql, {"new_amount":new_amount, "character_id":character_id, "item_id":item_id})
         db.session.commit()
     else:
-        ql = text("DELETE FROM character_item where character_id = :character_id AND item_id = :item_id")
+        sql = text("DELETE FROM character_item where character_id = :character_id AND item_id = :item_id")
         db.session.execute(sql, {"character_id":character_id, "item_id":item_id})
         db.session.commit()
 

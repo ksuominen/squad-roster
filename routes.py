@@ -44,8 +44,8 @@ def logout():
 
 @app.route("/ownpage", methods=["GET", "POST"])
 def ownpage():
-    username = session.get("user_name")
-    if not username:
+    user_id = session.get("user_id")
+    if not user_id:
         return render_template("error.html", message="Sorry, you don't have access to this page.")
     
     characters = character.get_player_characters()
@@ -54,7 +54,7 @@ def ownpage():
     campaign_form = f.CreateCampaignForm(request.form)
     character_form = f.CreateCharacterForm(request.form)
     character_form.class_id.choices = class_list
-    gm_campaigns = campaign.get_all_gm_campaigns(username)
+    gm_campaigns = campaign.get_all_gm_campaigns(user_id)
     
     if request.method =="POST" and campaign_form.campaign_submit.data and campaign_form.validate():
         campaign.create_campaign(campaign_form.name.data, campaign_form.description.data)
