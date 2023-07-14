@@ -131,6 +131,18 @@ def add_class():
         return redirect("/classes")
     
     return render_template("class_add.html", form=form)
+
+@app.route("/class/<int:class_id>/edit", methods=["GET", "POST"])
+def edit_class(class_id):
+    if not session.get("is_admin"):
+        return render_template("error.html", message="Sorry, only admins can edit classes.")
+    
+    form = f.CreateClassForm(request.form)
+    if request.method =="POST" and form.validate():
+        mothershipClasses.edit_class(class_id, form.name.data, form.stat_adjustment.data, form.trauma_response.data, form.class_skills.data)
+        return redirect(f"/classes")
+    
+    return render_template("class_edit.html", form=form, class_id=class_id)
     
 @app.route("/campaigns", methods=["GET"])
 def campaigns():

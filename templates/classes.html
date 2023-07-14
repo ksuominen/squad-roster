@@ -11,6 +11,7 @@
         <th>Stat adjustments</th>
         <th>Trauma response</th>
         <th>Class skills</th>
+        <th></th>
       </tr>
       {% for class in classes %}
         <tr>
@@ -18,6 +19,9 @@
           <td>{{ class.stat_adjustment }}</td>
           <td>{{ class.trauma_response }}</td>
           <td>{{ class.class_skills }}</td>
+          {% if session.get("is_admin") %}
+            <td><a href="/class/{{class.id}}/edit">Edit class</a></td>
+          {% endif %}
         </tr>
       {% endfor %}
     </table>
