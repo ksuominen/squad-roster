@@ -9,11 +9,15 @@
       <tr>
         <th>Name</th>
         <th>Description</th>
+        <th></th>
       </tr>
       {% for item in items %}
         <tr>
           <td>{{ item.name }}</td>
           <td>{{ item.description }}</td>
+          {% if session.get("is_admin") %}
+          <td><a href="/item/{{item.id}}/edit">Edit item</a></td>
+          {% endif %}
         </tr>
       {% endfor %}
     </table>

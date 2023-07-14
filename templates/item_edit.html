@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}Edit item{% endblock %}
+{% block content %}
+    
+    <h3>Edit item:</h3>
+      <p>
+        {% from "_formhelpers.html" import render_field %}
+        <form action="/item/{{ item_id }}/edit" method="POST">
+          <dl>
+            {{ render_field(form.name) }}
+            {{ render_field(form.description) }}
+          </dl>
+          <input type="submit" value="Edit">
+          <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+        </form>
+      </p>
+      
+{% endblock %}

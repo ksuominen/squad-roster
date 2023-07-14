@@ -6,6 +6,11 @@ def add_item(name, description):
     db.session.execute(sql, {"name":name, "description":description})
     db.session.commit()
 
+def edit_item(id, name, description):
+    sql = text("UPDATE item SET name=:name, description=:description WHERE id=:id")
+    db.session.execute(sql, {"id":id, "name":name, "description":description})
+    db.session.commit()
+
 def get_all_items():
     sql = text("SELECT id, name, description FROM item ORDER BY name")
     return db.session.execute(sql).fetchall()

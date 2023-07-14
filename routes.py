@@ -73,6 +73,18 @@ def add_item():
     
     return render_template("item_add.html", form=form)
 
+@app.route("/item/<int:item_id>/edit", methods=["GET", "POST"])
+def edit_item(item_id):
+    if not session.get("is_admin"):
+        return render_template("error.html", message="Sorry, only admins can edit items.")
+    
+    form = f.CreateItemForm(request.form)
+    if request.method =="POST" and form.validate():
+        item.edit_item(item_id, form.name.data, form.description.data)
+        return redirect(f"/items")
+    
+    return render_template("item_edit.html", form=form, item_id=item_id)
+
 @app.route("/skills", methods=["GET"])
 def skills():
     trained_skills = skill.get_trained_skills()
