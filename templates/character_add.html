@@ -20,8 +20,8 @@
         {{ render_field(form.max_hp) }}
         {{ render_field(form.min_stress) }}
         {{ render_field(form.description) }}
+        <dt></dt><dd><input type="submit" value="Create character"></dd>
       </dl>
-      <input type="submit" value="Create character">
       <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
     </form>
   </p>

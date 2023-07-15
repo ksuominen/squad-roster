@@ -23,8 +23,8 @@
             {{ render_field(form.current_stress) }}
             {{ render_field(form.min_stress) }}
             {{ render_field(form.description) }}
+            <dt></dt><dd><input type="submit" value="Save"></dd>
           </dl>
-          <input type="submit" value="Save">
           <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
         </form>
         <a href="/character/{{character_id}}">Cancel</a>

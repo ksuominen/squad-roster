@@ -207,6 +207,9 @@ def show_campaign(campaign_id):
     if request.method == "POST" and is_gm and form.validate():
         campaign.add_character_to_campaign(form.character_id.data, campaign_id)
         characters = campaign.get_characters(campaign_id)
+        available_characters = campaign.get_available_characters(campaign_id)
+        character_list = [(i.id, i.name) for i in available_characters]
+        form.character_id.choices = character_list
         return render_template("campaign.html", form=form, campaign=campaign_info, characters=characters, is_gm=is_gm)
     
     return render_template("campaign.html", form=form, campaign=campaign_info, characters=characters, is_gm=is_gm)

@@ -9,8 +9,8 @@
       <dl>
         {{ render_field(form.name) }}
         {{ render_field(form.description) }}
+        <dt></dt><dd><input type="submit" value="Create campaign"></dd>
       </dl>
-      <input type="submit" value="Create campaign">
       <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
     </form>
   </p>  

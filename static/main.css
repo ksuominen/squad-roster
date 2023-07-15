@@ -1,9 +1,76 @@
+html {
+    font-family: sans-serif;
+    background-color: rgb(49, 44, 44);
+    color: rgb(245, 238, 238);
+}
+
+a, a:visited {
+    color: aquamarine;
+}
+
+a:hover, a:focus-visible {
+    color: violet;
+}
+
 .topnav {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
 }
 
+.topnav a {
+    text-decoration: none;
+}
+
 .flex-spacer {
     flex: 1;
+}
+
+form {
+    max-width: 600px;
+}
+
+input, select {
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid rgb(245, 238, 238);
+    color: rgb(245, 238, 238);
+}
+
+option {
+    background-color: rgb(49, 44, 44);
+    color: rgb(245, 238, 238);
+}
+
+input[type=submit] {
+    display: block;
+    background-color: aquamarine;
+    color: black;
+    width: auto;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    border: none;
+}
+
+input[type=submit]:hover, input[type=submit]:focus {
+    background-color: violet;
+}
+
+label[for$="_submit"] {
+    display: none;
+}
+
+form dl {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 0.5rem;
+}
+
+th {
+    text-align: left;
+    padding: 0.25rem 0.5rem 0.8rem;
+}
+
+td {
+    padding: 0.25rem 0.5rem;
 }

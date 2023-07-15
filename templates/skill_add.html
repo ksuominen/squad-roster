@@ -10,8 +10,8 @@
         {{ render_field(form.name) }}
         {{ render_field(form.description) }}
         {{ render_field(form.level) }}
+        <dt></dt><dd><input type="submit" value="Create skill"></dd>
       </dl>
-      <input type="submit" value="Create skill">
       <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
     </form>
   </p>  

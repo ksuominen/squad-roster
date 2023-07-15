@@ -9,8 +9,8 @@
 		<dl>
 			{{ render_field(form.username) }}
     		{{ render_field(form.password) }}
+			<dt></dt><dd><input type="submit" value="Log In"></dd>
 		</dl>
-		<input type="submit" value="Log In">
 		<input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
 	</form>
 {% endblock %}
