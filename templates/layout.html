@@ -1,3 +1,7 @@
+{% macro render_navlink(href, text) %}
+<a href="{{href}}" class="{% if request.path == href %}is-active{% endif %}">{{text}}</a>
+{% endmacro %}
+
 <!doctype html>
 <link rel="stylesheet" href="/static/main.css">
 <html> 
@@ -7,24 +11,22 @@
 	<body>
 		<h1>Squad Roster</h1>
 		<div class="topnav">
-			<a href="/">Home</a>
+			{{ render_navlink("/", "Home") }}
 			{% if session.user_id %}
-				<a href="/ownpage">My page</a>
+				{{ render_navlink("/ownpage", "My page") }}
 			{% endif %}
-			<a href="/items">Items</a>
-			<a href="/skills">Skills</a>
-			<a href="/classes">Classes</a>
-			<a href="/campaigns">Campaigns</a>
+			{{ render_navlink("/items", "Items") }}
+			{{ render_navlink("/skills", "Skills") }}
+			{{ render_navlink("/classes", "Classes") }}
+			{{ render_navlink("/campaigns", "Campaigns") }}
 			<span class="flex-spacer"></span>
 			{% if session.user_id %}
-				<a href="/logout">Log out</a>
+				{{ render_navlink("/logout", "Log Out") }}
 			{% else %}
-				<a href="/login">Log In</a>
-				<a href="/register">Register</a>
+				{{ render_navlink("/login", "Log In") }}
+				{{ render_navlink("/register", "Register") }}
 			{% endif %}			
 	    </div>
-		<hr/>
 		{% block content %}{% endblock %}
-		<hr/>
 	</body>
 </html>
