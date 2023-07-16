@@ -47,7 +47,7 @@
 
     <h3>Danger zone</h3>
       <form action="/campaign/{{campaign.id}}/delete" method="POST">
-	      <input type="submit" value="Delete campaign">
+	      <input type="submit" value="Delete campaign" onClick="return confirm('Are you sure?')">
         <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
 	    </form>
   {% endif %}
