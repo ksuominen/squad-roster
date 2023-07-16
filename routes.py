@@ -15,7 +15,6 @@ def index():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = f.LoginForm(request.form)
-
     if request.method == "POST" and form.validate():
         if player.login(form.username.data, form.password.data):
             return redirect("/ownpage")

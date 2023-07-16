@@ -38,7 +38,7 @@ CREATE TABLE skill (
     id SERIAL PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
     description TEXT NOT NULL,
-    level TEXT NOT NULL --integer/enum?
+    level TEXT NOT NULL 
 );
 
 CREATE TABLE item (
