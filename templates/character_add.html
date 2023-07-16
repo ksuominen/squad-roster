@@ -1,28 +1,27 @@
 {% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block title %}Add character{% endblock %}
-{% block content %}   
-  <h3>Add a new character:</h3>
-  <p>
-    <form action="/character/add" method="POST">
-    {% from "_formhelpers.html" import render_field %}
-      <dl>
-        {{ render_field(form.name) }}
-        {{ render_field(form.class_id) }}
-        {{ render_field(form.level) }}
-        {{ render_field(form.strength) }}
-        {{ render_field(form.speed) }}
-        {{ render_field(form.intellect) }}
-        {{ render_field(form.combat) }}
-        {{ render_field(form.sanity) }}
-        {{ render_field(form.fear) }}
-        {{ render_field(form.body) }}
-        {{ render_field(form.max_hp) }}
-        {{ render_field(form.min_stress) }}
-        {{ render_field(form.description) }}
-        <dt></dt><dd><input type="submit" value="Create character"></dd>
-      </dl>
-      <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-    </form>
-  </p>
+{% block content %}
+<h3>Add a new character:</h3>
+<form action="/character/add" method="POST">
+  <dl>
+    {{ render_field(form.name) }}
+    {{ render_field(form.class_id) }}
+    {{ render_field(form.level) }}
+    {{ render_field(form.strength) }}
+    {{ render_field(form.speed) }}
+    {{ render_field(form.intellect) }}
+    {{ render_field(form.combat) }}
+    {{ render_field(form.sanity) }}
+    {{ render_field(form.fear) }}
+    {{ render_field(form.body) }}
+    {{ render_field(form.max_hp) }}
+    {{ render_field(form.min_stress) }}
+    {{ render_field(form.description) }}
+    <dt></dt>
+    <dd><input type="submit" value="Create character"></dd>
+  </dl>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>
 {% endblock %}

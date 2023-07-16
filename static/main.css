@@ -1,170 +1,179 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
-    font-family: "Lato", sans-serif;
-    font-size: 16px;
-    background-color: rgb(49, 44, 44);
-    color: rgb(245, 238, 238);
+  font-family: "Lato", sans-serif;
+  font-size: 16px;
+  background-color: rgb(49, 44, 44);
+  color: rgb(245, 238, 238);
 }
 
-a, a:visited {
-    color: aquamarine;
+a,
+a:visited {
+  color: aquamarine;
 }
 
-a:hover, a:focus-visible {
-    color: violet;
+a:hover,
+a:focus-visible {
+  color: violet;
 }
 
 a.action-link {
-    text-transform: uppercase;
-    font-weight: bold;
-    text-decoration: none;
-    margin-left: 4rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  margin-left: 4rem;
 }
 
 a.action-link::after {
-    content: "»";
-    display: inline-block;
-    padding-left: 0.25rem;
+  content: "»";
+  display: inline-block;
+  padding-left: 0.25rem;
 }
 
 a.action-link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .is-bold {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .topnav {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    border-bottom: 1px solid rgb(245, 238, 238);
-    padding-bottom: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgb(245, 238, 238);
+  padding-bottom: 0.5rem;
 }
 
 .topnav a {
-    text-decoration: none;
-    padding: 0.25rem 0.5rem;
-    display: flex;
-    border: 2px solid transparent;
-    border-radius: 1.25rem;
-    height: 2.5rem;
-    width: auto;
-    justify-content: center;
-    align-items: center;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  border: 2px solid transparent;
+  border-radius: 1.25rem;
+  height: 2.5rem;
+  width: auto;
+  justify-content: center;
+  align-items: center;
 }
 
 .topnav a.is-active {
-    border-color: grey;
+  border-color: grey;
 }
 
 .flex-spacer {
-    flex: 1;
+  flex: 1;
 }
 
 form {
-    max-width: 600px;
+  max-width: 600px;
 }
 
-input, select {
-    width: 100%;
-    background-color: rgb(79, 79, 79);
-    border: 0 solid rgb(245, 238, 238);
-    border-bottom-width: 1px;
-    color: rgb(245, 238, 238);
-    font-family: "Lato", sans-serif;
-    font-size: 1rem;
-    padding: 0.25rem 0.5rem;
+input,
+select {
+  width: 100%;
+  background-color: rgb(79, 79, 79);
+  border: 0 solid rgb(245, 238, 238);
+  border-bottom-width: 1px;
+  color: rgb(245, 238, 238);
+  font-family: "Lato", sans-serif;
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
 }
 
 option {
-    background-color: rgb(79, 79, 79);
-    color: rgb(245, 238, 238);
+  background-color: rgb(79, 79, 79);
+  color: rgb(245, 238, 238);
 }
 
 input[type=submit] {
-    display: block;
-    background-color: aquamarine;
-    color: black;
-    width: auto;
-    font-weight: bold;
-    padding: 0.5rem 1rem;
-    border: none;
+  display: block;
+  background-color: aquamarine;
+  color: black;
+  width: auto;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border: none;
 }
 
-input[type=submit]:hover, input[type=submit]:focus {
-    background-color: violet;
+input[type=submit]:hover,
+input[type=submit]:focus {
+  background-color: violet;
 }
 
 input[type=submit].is-small {
-    padding: 0.25rem 0.5rem;
-    font-size: small;
+  padding: 0.25rem 0.5rem;
+  font-size: small;
 }
 
 label[for$="_submit"] {
-    display: none;
+  display: none;
 }
 
 form dl {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    gap: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 0.5rem;
 }
 
 th {
-    text-align: left;
-    padding: 0.25rem 0.5rem 0.8rem;
+  text-align: left;
+  padding: 0.25rem 0.5rem 0.8rem;
 }
 
 td {
-    padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.5rem;
 }
 
 .stat-list {
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  padding: 0;
 }
 
 .stat-list li {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    margin: 0 0.8rem;
-    justify-content: center;
-    align-items: center;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  margin: 0 0.8rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .stat-name {
-    text-transform: uppercase;
-    font-size: small;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-size: small;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
 .stat-value {
-    font-size: large;
-    font-weight: bold;
-    display: flex;
-    border: 2px solid grey;
-    border-radius: 1.25rem;
-    height: 2.5rem;
-    width: 2.5rem;
-    justify-content: center;
-    align-items: center;
+  font-size: large;
+  font-weight: bold;
+  display: flex;
+  border: 2px solid grey;
+  border-radius: 1.25rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .stat-value.is-wide {
-    width: 5rem;
+  width: 5rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    text-transform: uppercase;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-transform: uppercase;
 }

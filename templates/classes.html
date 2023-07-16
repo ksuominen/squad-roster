@@ -2,34 +2,32 @@
 
 {% block title %}Classes{% endblock %}
 {% block content %}
-  <h2>Classes</h2>
-  <p>
-    {% if classes %}
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Stat adjustments</th>
-        <th>Trauma response</th>
-        <th>Class skills</th>
-        <th></th>
-      </tr>
-      {% for class in classes %}
-        <tr>
-          <td>{{ class.name }}</td>
-          <td>{{ class.stat_adjustment }}</td>
-          <td>{{ class.trauma_response }}</td>
-          <td>{{ class.class_skills }}</td>
-          {% if session.get("is_admin") %}
-            <td><a href="/class/{{class.id}}/edit">Edit class</a></td>
-          {% endif %}
-        </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-      <p>There are currently no classes to show.</p>
+<h2>Classes</h2>
+{% if classes %}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Stat adjustments</th>
+    <th>Trauma response</th>
+    <th>Class skills</th>
+    <th></th>
+  </tr>
+  {% for class in classes %}
+  <tr>
+    <td>{{ class.name }}</td>
+    <td>{{ class.stat_adjustment }}</td>
+    <td>{{ class.trauma_response }}</td>
+    <td>{{ class.class_skills }}</td>
+    {% if session.get("is_admin") %}
+    <td><a href="/class/{{class.id}}/edit">Edit class</a></td>
     {% endif %}
-  </p>
-  {% if session.get("is_admin") %}
-    <p><a class="action-link" href="/class/add">Add a new class</a></p>
-  {% endif %}
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>There are currently no classes to show.</p>
+{% endif %}
+{% if session.get("is_admin") %}
+<span><a class="action-link" href="/class/add">Add a new class</a></span>
+{% endif %}
 {% endblock %}

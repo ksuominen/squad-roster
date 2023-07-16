@@ -2,77 +2,74 @@
 
 {% block title %}Skills{% endblock %}
 {% block content %}
-  <h2>Skills</h2>
-  <p>
-    <h3>Trained skills</h3>
-    {% if trained_skills %}
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th></th>
-      </tr>
-      {% for skill in trained_skills %}
-        <tr>
-          <td>{{ skill.name }}</td>
-          <td>{{ skill.description }}</td>
-          {% if session.get("is_admin") %}
-          <td><a href="/skill/{{skill.id}}/edit">Edit skill</a></td>
-          {% endif %}
-        </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-      <p>There are currently no trained skills.</p>
+<h2>Skills</h2>
+<h3>Trained skills</h3>
+{% if trained_skills %}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th></th>
+  </tr>
+  {% for skill in trained_skills %}
+  <tr>
+    <td>{{ skill.name }}</td>
+    <td>{{ skill.description }}</td>
+    {% if session.get("is_admin") %}
+    <td><a href="/skill/{{skill.id}}/edit">Edit skill</a></td>
     {% endif %}
-  </p>
-  <p>
-    <h3>Expert skills</h3>
-    {% if expert_skills %}
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th></th>
-      </tr>
-      {% for skill in expert_skills %}
-        <tr>
-          <td>{{ skill.name }}</td>
-          <td>{{ skill.description }}</td>
-          {% if session.get("is_admin") %}
-          <td><a href="/skill/{{skill.id}}/edit">Edit skill</a></td>
-          {% endif %}
-        </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-      <p>There are currently no expert skills.</p>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>There are currently no trained skills.</p>
+{% endif %}
+
+<h3>Expert skills</h3>
+{% if expert_skills %}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th></th>
+  </tr>
+  {% for skill in expert_skills %}
+  <tr>
+    <td>{{ skill.name }}</td>
+    <td>{{ skill.description }}</td>
+    {% if session.get("is_admin") %}
+    <td><a href="/skill/{{skill.id}}/edit">Edit skill</a></td>
     {% endif %}
-  </p>
-  <p>
-    <h3>Master skills</h3>
-    {% if master_skills %}
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th></th>
-      </tr>
-      {% for skill in master_skills %}
-        <tr>
-          <td>{{ skill.name }}</td>
-          <td>{{ skill.description }}</td>
-          {% if session.get("is_admin") %}
-          <td><a href="/skill/{{skill.id}}/edit">Edit skill</a></td>
-          {% endif %}
-        </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-      <p>There are currently no master skills.</p>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>There are currently no expert skills.</p>
+{% endif %}
+
+<h3>Master skills</h3>
+{% if master_skills %}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th></th>
+  </tr>
+  {% for skill in master_skills %}
+  <tr>
+    <td>{{ skill.name }}</td>
+    <td>{{ skill.description }}</td>
+    {% if session.get("is_admin") %}
+    <td><a href="/skill/{{skill.id}}/edit">Edit skill</a></td>
     {% endif %}
-  </p>
-  {% if session.get("is_admin") %}
-    <p><a class="action-link" href="/skill/add">Add a new skill</a></p>
-  {% endif %}
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>There are currently no master skills.</p>
+{% endif %}
+
+{% if session.get("is_admin") %}
+<span><a class="action-link" href="/skill/add">Add a new skill</a></span>
+{% endif %}
 {% endblock %}

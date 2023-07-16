@@ -2,32 +2,31 @@
 
 {% block title %}Campaigns{% endblock %}
 {% block content %}
-  <h2>Campaigns</h2>
-  <p>
-    {% if campaigns %}
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Gamemaster</th>
-      </tr>
-      {% for campaign in campaigns %}
-        <tr>
-          {% if session.get("user_name") and session.get("user_id") == campaign.gamemaster_id or session.get("user_name") and campaign.players_character_id %}
-            <td><a href="/campaign/{{campaign.id}}">{{ campaign.name }}</a></td>
-          {% else %}
-            <td>{{ campaign.name }}</td>
-          {% endif %}
-          <td>{{ campaign.description }}</td>
-          <td>{{ campaign.username }}</td>
-        </tr>
-      {% endfor %}
-    </table>
+<h2>Campaigns</h2>
+{% if campaigns %}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Gamemaster</th>
+  </tr>
+  {% for campaign in campaigns %}
+  <tr>
+    {% if session.get("user_name") and session.get("user_id") == campaign.gamemaster_id or session.get("user_name") and
+    campaign.players_character_id %}
+    <td><a href="/campaign/{{campaign.id}}">{{ campaign.name }}</a></td>
     {% else %}
-      <p>There are currently no campaigns to show.</p>
+    <td>{{ campaign.name }}</td>
     {% endif %}
-  </p>
-  {% if session.get("user_id") %}
-    <p><a class="action-link" href="/campaign/add">Add a new campaign</a></p>
-  {% endif %}
+    <td>{{ campaign.description }}</td>
+    <td>{{ campaign.username }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>There are currently no campaigns to show.</p>
+{% endif %}
+{% if session.get("user_id") %}
+<span><a class="action-link" href="/campaign/add">Add a new campaign</a></span>
+{% endif %}
 {% endblock %}

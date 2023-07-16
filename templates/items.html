@@ -2,30 +2,29 @@
 
 {% block title %}Items{% endblock %}
 {% block content %}
-  <h2>Items</h2>
-  <p>
-    {% if items %}
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th></th>
-      </tr>
-      {% for item in items %}
-        <tr>
-          <td>{{ item.name }}</td>
-          <td>{{ item.description }}</td>
-          {% if session.get("is_admin") %}
-          <td><a href="/item/{{item.id}}/edit">Edit item</a></td>
-          {% endif %}
-        </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-      <p>There are currently no items to show.</p>
+<h2>Items</h2>
+{% if items %}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th></th>
+  </tr>
+  {% for item in items %}
+  <tr>
+    <td>{{ item.name }}</td>
+    <td>{{ item.description }}</td>
+    {% if session.get("is_admin") %}
+    <td><a href="/item/{{item.id}}/edit">Edit item</a></td>
     {% endif %}
-  </p>
-  {% if session.get("is_admin") %}
-    <p><a class="action-link" href="/item/add">Add a new item</a></p>
-  {% endif %}
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>There are currently no items to show.</p>
+{% endif %}
+
+{% if session.get("is_admin") %}
+<span><a class="action-link" href="/item/add">Add a new item</a></span>
+{% endif %}
 {% endblock %}

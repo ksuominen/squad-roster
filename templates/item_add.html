@@ -1,17 +1,16 @@
 {% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block title %}Add item{% endblock %}
-{% block content %}   
-  <h3>Create a new item:</h3>
-  <p>
-    {% from "_formhelpers.html" import render_field %}
-    <form action="/item/add" method="POST">
-      <dl>
-        {{ render_field(form.name) }}
-        {{ render_field(form.description) }}
-        <dt></dt><dd><input type="submit" value="Create item"></dd>
-      </dl>
-      <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-    </form>
-  </p>  
+{% block content %}
+<h3>Create a new item:</h3>
+<form action="/item/add" method="POST">
+  <dl>
+    {{ render_field(form.name) }}
+    {{ render_field(form.description) }}
+    <dt></dt>
+    <dd><input type="submit" value="Create item"></dd>
+  </dl>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>
 {% endblock %}

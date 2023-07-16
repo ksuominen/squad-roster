@@ -1,19 +1,18 @@
 {% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block title %}Add class{% endblock %}
-{% block content %}   
-  <h3>Create a new class:</h3>
-  <p>
-    {% from "_formhelpers.html" import render_field %}
-    <form action="/class/add" method="POST">
-      <dl>
-        {{ render_field(form.name) }}
-        {{ render_field(form.stat_adjustment) }}
-        {{ render_field(form.trauma_response) }}
-        {{ render_field(form.class_skills) }}
-        <dt></dt><dd><input type="submit" value="Create class"></dd>
-      </dl>
-      <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-    </form>
-  </p>  
+{% block content %}
+<h3>Create a new class:</h3>
+<form action="/class/add" method="POST">
+  <dl>
+    {{ render_field(form.name) }}
+    {{ render_field(form.stat_adjustment) }}
+    {{ render_field(form.trauma_response) }}
+    {{ render_field(form.class_skills) }}
+    <dt></dt>
+    <dd><input type="submit" value="Create class"></dd>
+  </dl>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>
 {% endblock %}

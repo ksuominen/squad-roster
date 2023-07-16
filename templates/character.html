@@ -1,126 +1,129 @@
 {% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block title %}{{ character.name }}{% endblock %}
 {% block content %}
-{% from "_formhelpers.html" import render_field %}
-  <h2>{{ character.name }}</h2>
-  <h3>Level {{ character.level }} {{ character_class.name }}</h3>
-  {% if character.description %}
-    <p>Description: {{ character.description }}</p>
-    {% endif %}
-    {% if character_campaign %}
-    <p>Campaign: <a href="/campaign/{{character_campaign.id}}">{{ character_campaign.name }}</a></p>
-    {% endif %}
 
-  <h3>Status</h3>  
-  <ul class="stat-list">
-    <li><span class="stat-name">Hp / max hp</span> <span class="stat-value is-wide">{{ character.current_hp }}/{{ character.max_hp }}</span></li>
-    <li><span class="stat-name">Stress / min stress</span> <span class="stat-value is-wide">{{ character.current_stress }}/{{ character.min_stress }}</span></li>
-  </ul>
+<h2>{{ character.name }}</h2>
+<h3>Level {{ character.level }} {{ character_class.name }}</h3>
+{% if character.description %}
+<p>Description: {{ character.description }}</p>
+{% endif %}
+{% if character_campaign %}
+<p>Campaign: <a href="/campaign/{{character_campaign.id}}">{{ character_campaign.name }}</a></p>
+{% endif %}
 
-  <h3>Stats</h3>
-  <ul class="stat-list">
-    {% for stat in ["strength", "speed", "intellect", "combat"] %}
-    <li><span class="stat-name">{{stat}}</span> <span class="stat-value">{{ character[stat] }}</span></li>
-    {% endfor %}
-  </ul>
-  <h3>Saves</h3>
-  <ul class="stat-list">
-    {% for stat in ["sanity", "fear", "body"] %}
-    <li><span class="stat-name">{{stat}}</span> <span class="stat-value">{{ character[stat] }}</span></li>
-    {% endfor %}
-  </ul>
+<h3>Status</h3>
+<ul class="stat-list">
+  <li><span class="stat-name">Hp / max hp</span> <span class="stat-value is-wide">{{ character.current_hp }}/{{
+      character.max_hp }}</span></li>
+  <li><span class="stat-name">Stress / min stress</span> <span class="stat-value is-wide">{{ character.current_stress
+      }}/{{ character.min_stress }}</span></li>
+</ul>
 
-  {% if session.get("user_id") == character.player_id or session.get("user_id") == character_campaign.gamemaster_id %}
-    <p><a class="action-link" href="/character/{{character.id}}/edit">Edit {{ character.name }}</a></p>
-  {% endif %}
+<h3>Stats</h3>
+<ul class="stat-list">
+  {% for stat in ["strength", "speed", "intellect", "combat"] %}
+  <li><span class="stat-name">{{stat}}</span> <span class="stat-value">{{ character[stat] }}</span></li>
+  {% endfor %}
+</ul>
+<h3>Saves</h3>
+<ul class="stat-list">
+  {% for stat in ["sanity", "fear", "body"] %}
+  <li><span class="stat-name">{{stat}}</span> <span class="stat-value">{{ character[stat] }}</span></li>
+  {% endfor %}
+</ul>
 
-  <h3>Skills</h3>
-  {% if skills %}
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Skill level</th>
-        <th></th>
-      </tr>
-      {% for skill in skills %}
-        <tr>
-          <td>{{ skill.name }}</td>
-          <td>{{ skill.description }}</td>
-          <td>{{ skill.level }}</td>
-          {% if session.get("user_id") == character.player_id or session.get("user_id") == character_campaign.gamemaster_id %}
-          <td>
-            <form action="/character/{{character.id}}/skill/{{skill.id}}" method="POST">
-              <input type = "submit" value = "Remove"/>
-              <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-            </form>
-          </td>
-          {% endif %}
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-      <p>{{ character.name }} currently has no skills.</p>
-    {% endif %}
-    {% if session.get("user_id") == character.player_id %}
-      <h4>Add a new skill to {{ character.name }}:</h4>
-      <form action="/character/{{character.id}}" method="POST">
-        <dl>
-          {{ render_field(add_skill_form.skill_id) }}
-          {{ render_field(add_skill_form.add_skill_submit) }}
-        </dl>
-        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+{% if session.get("user_id") == character.player_id or session.get("user_id") == character_campaign.gamemaster_id %}
+<p><a class="action-link" href="/character/{{character.id}}/edit">Edit {{ character.name }}</a></p>
+{% endif %}
+
+<h3>Skills</h3>
+{% if skills %}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Skill level</th>
+    <th></th>
+  </tr>
+  {% for skill in skills %}
+  <tr>
+    <td>{{ skill.name }}</td>
+    <td>{{ skill.description }}</td>
+    <td>{{ skill.level }}</td>
+    {% if session.get("user_id") == character.player_id or session.get("user_id") == character_campaign.gamemaster_id %}
+    <td>
+      <form action="/character/{{character.id}}/skill/{{skill.id}}" method="POST">
+        <input type="submit" value="Remove" />
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
       </form>
+    </td>
     {% endif %}
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>{{ character.name }} currently has no skills.</p>
+{% endif %}
+{% if session.get("user_id") == character.player_id %}
+<h4>Add a new skill to {{ character.name }}:</h4>
+<form action="/character/{{character.id}}" method="POST">
+  <dl>
+    {{ render_field(add_skill_form.skill_id) }}
+    {{ render_field(add_skill_form.add_skill_submit) }}
+  </dl>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>
+{% endif %}
 
-  <h3>Items</h3>
-  {% if items %}
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Amount</th>
-      </tr>
-      {% for item in items %}
-        <tr>
-          <td>{{ item.name }}</td>
-          <td>{{ item.description }}</td>
-          <td>{{ item.amount }}</td>
-          {% if session.get("user_id") == character.player_id %}
-          <td>
-            <form action="/character/{{character.id}}/item/{{item.id}}" method="POST">
-              <input type = "submit" value = "Use item"/>
-              <input type="hidden" name="amount" value = "{{ item.amount }}" />
-              <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-            </form>
-          </td>
-          {% endif %}
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-      <p>{{ character.name }} currently has no items.</p>
-    {% endif %}
-
+<h3>Items</h3>
+{% if items %}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Amount</th>
+  </tr>
+  {% for item in items %}
+  <tr>
+    <td>{{ item.name }}</td>
+    <td>{{ item.description }}</td>
+    <td>{{ item.amount }}</td>
     {% if session.get("user_id") == character.player_id %}
-      <h4>Add a new item to {{ character.name }}:</h4>
-      <form action="/character/{{character.id}}" method="POST">
-        <dl>
-          {{ render_field(add_item_form.item_id) }}
-          {{ render_field(add_item_form.amount) }}
-          {{ render_field(add_item_form.add_item_submit) }}
-        </dl>
-        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+    <td>
+      <form action="/character/{{character.id}}/item/{{item.id}}" method="POST">
+        <input type="submit" value="Use item" />
+        <input type="hidden" name="amount" value="{{ item.amount }}" />
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
       </form>
+    </td>
     {% endif %}
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>{{ character.name }} currently has no items.</p>
+{% endif %}
 
-    {% if session.get("user_id") == character.player_id %}
-    <h3>Danger zone</h3>
-      <form action="/character/{{character.id}}/delete" method="POST">
-        <input type = "submit" value = "Delete character" onClick="return confirm('Are you sure?')"/>
-        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-      </form>
-    {% endif %}
+{% if session.get("user_id") == character.player_id %}
+<h4>Add a new item to {{ character.name }}:</h4>
+<form action="/character/{{character.id}}" method="POST">
+  <dl>
+    {{ render_field(add_item_form.item_id) }}
+    {{ render_field(add_item_form.amount) }}
+    {{ render_field(add_item_form.add_item_submit) }}
+  </dl>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>
+{% endif %}
+
+{% if session.get("user_id") == character.player_id %}
+<h3>Danger zone</h3>
+<form action="/character/{{character.id}}/delete" method="POST">
+  <input type="submit" value="Delete character" onClick="return confirm('Are you sure?')" />
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>
+{% endif %}
 
 {% endblock %}

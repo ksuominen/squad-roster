@@ -1,16 +1,17 @@
 {% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block title %}Log In{% endblock %}
 
 {% block content %}
-	<h2>Log In</h2>
-	{% from "_formhelpers.html" import render_field %}
-	<form action="/login" method="POST">
-		<dl>
-			{{ render_field(form.username) }}
-    		{{ render_field(form.password) }}
-			<dt></dt><dd><input type="submit" value="Log In"></dd>
-		</dl>
-		<input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-	</form>
+<h2>Log In</h2>
+<form action="/login" method="POST">
+  <dl>
+    {{ render_field(form.username) }}
+    {{ render_field(form.password) }}
+    <dt></dt>
+    <dd><input type="submit" value="Log In"></dd>
+  </dl>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>
 {% endblock %}

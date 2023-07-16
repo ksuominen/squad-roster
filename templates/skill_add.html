@@ -1,18 +1,17 @@
 {% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block title %}Add skill{% endblock %}
-{% block content %}   
-  <h3>Create a new skill:</h3>
-  <p>
-    {% from "_formhelpers.html" import render_field %}
-    <form action="/skill/add" method="POST">
-      <dl>
-        {{ render_field(form.name) }}
-        {{ render_field(form.description) }}
-        {{ render_field(form.level) }}
-        <dt></dt><dd><input type="submit" value="Create skill"></dd>
-      </dl>
-      <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-    </form>
-  </p>  
+{% block content %}
+<h3>Create a new skill:</h3>
+<form action="/skill/add" method="POST">
+  <dl>
+    {{ render_field(form.name) }}
+    {{ render_field(form.description) }}
+    {{ render_field(form.level) }}
+    <dt></dt>
+    <dd><input type="submit" value="Create skill"></dd>
+  </dl>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>
 {% endblock %}

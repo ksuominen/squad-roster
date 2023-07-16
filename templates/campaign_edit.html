@@ -1,20 +1,20 @@
 {% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block title %}Edit campaign{% endblock %}
 {% block content %}
-    
-    <h3>Edit campaign:</h3>
-      <p>
-        {% from "_formhelpers.html" import render_field %}
-        <form action="/campaign/{{ campaign_id }}/edit" method="POST">
-          <dl>
-            {{ render_field(form.name) }}
-            {{ render_field(form.description) }}
-            <dt></dt><dd><input type="submit" value="Save"></dd>
-          </dl>
-          <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-        </form>
-        <a href="/campaign/{{campaign_id}}">Cancel</a>
-      </p>
-      
+
+<h3>Edit campaign:</h3>
+
+<form action="/campaign/{{ campaign_id }}/edit" method="POST">
+  <dl>
+    {{ render_field(form.name) }}
+    {{ render_field(form.description) }}
+    <dt></dt>
+    <dd><input type="submit" value="Save"></dd>
+  </dl>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>
+<a href="/campaign/{{campaign_id}}">Cancel</a>
+
 {% endblock %}

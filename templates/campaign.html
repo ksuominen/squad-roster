@@ -1,54 +1,54 @@
 {% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
 
 {% block title %}{{ campaign.name }}{% endblock %}
 {% block content %}
-{% from "_formhelpers.html" import render_field %}
-  <h2>{{ campaign.name }}</h2>
-  <p>
-    <ul>
-      <li>Description: {{ campaign.name }}</li>
-      <li>Gamemaster: {{ campaign.username }}</li>
-    </ul>
-  </p>
+<h2>{{ campaign.name }}</h2>
+<ul>
+  <li>Description: {{ campaign.name }}</li>
+  <li>Gamemaster: {{ campaign.username }}</li>
+</ul>
 
-  {% if is_gm %}
-    <p><a class="action-link" href="/campaign/{{campaign.id}}/edit">Edit campaign</a></p>
-  {% endif %}
+{% if is_gm %}
+<span><a class="action-link" href="/campaign/{{campaign.id}}/edit">Edit campaign</a></span>
+{% endif %}
 
-  <h3>Characters in this campaign:</h3>
-  {% if characters %}
-    <table>
-      {% for character in characters %}
-      <tr>
-      <td><a class="is-bold" href="/character/{{character.id}}">{{ character.name }}</a></td>
-      <td>Level {{ character.level }} {{ character.class_name }}</td>
-      {% if is_gm or character.player_id == session.get("user_id") %}
-      <td><form action="/campaign/{{campaign.id}}/remove/{{character.id}}" method="POST">
-        <input class="is-small" type = "submit" value = "Remove from campaign"/>
-        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-      </form></td>
-      {% endif %}
-    </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-      <p>This campaign currently has no characters.</p>
+<h3>Characters in this campaign:</h3>
+{% if characters %}
+<table>
+  {% for character in characters %}
+  <tr>
+    <td><a class="is-bold" href="/character/{{character.id}}">{{ character.name }}</a></td>
+    <td>Level {{ character.level }} {{ character.class_name }}</td>
+    {% if is_gm or character.player_id == session.get("user_id") %}
+    <td>
+      <form action="/campaign/{{campaign.id}}/remove/{{character.id}}" method="POST">
+        <input class="is-small" type="submit" value="Remove from campaign" />
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      </form>
+    </td>
     {% endif %}
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>This campaign currently has no characters.</p>
+{% endif %}
 
-  {% if is_gm %}
-      <h4>Add a new character to this campaign:</h4>
-      <form action="/campaign/{{campaign.id}}" method="POST">
-        <dl>
-          {{ render_field(form.character_id) }}
-        </dl>
-	      <input type="submit" value="Add character">
-        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-	    </form>
+{% if is_gm %}
+<h4>Add a new character to this campaign:</h4>
+<form action="/campaign/{{campaign.id}}" method="POST">
+  <dl>
+    {{ render_field(form.character_id) }}
+  </dl>
+  <input type="submit" value="Add character">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>
 
-    <h3>Danger zone</h3>
-      <form action="/campaign/{{campaign.id}}/delete" method="POST">
-	      <input type="submit" value="Delete campaign" onClick="return confirm('Are you sure?')">
-        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-	    </form>
-  {% endif %}
+<h3>Danger zone</h3>
+<form action="/campaign/{{campaign.id}}/delete" method="POST">
+  <input type="submit" value="Delete campaign" onClick="return confirm('Are you sure?')">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>
+{% endif %}
 {% endblock %}
