@@ -240,7 +240,7 @@ class EditCharacterForm(Form):
 
 class AddSkillToCharacterForm(Form):
     skill_id = SelectField("Skill", coerce=int, validators=[validators.InputRequired()])
-    add_skill_submit = SubmitField("Add")
+    add_skill_submit = SubmitField("Add skill")
 
 
 class AddItemToCharacterForm(Form):

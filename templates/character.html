@@ -68,6 +68,7 @@
 {% endif %}
 {% if session.get("user_id") == character.player_id %}
 <h4>Add a new skill to {{ character.name }}:</h4>
+{% if available_skills %}
 <form action="/character/{{character.id}}" method="POST">
   <dl>
     {{ render_field(add_skill_form.skill_id) }}
@@ -75,6 +76,9 @@
   </dl>
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 </form>
+{% else %}
+<p>Sorry, there are no skills to be added.</p>
+{% endif %}
 {% endif %}
 
 <h3>Items</h3>
@@ -108,6 +112,7 @@
 
 {% if session.get("user_id") == character.player_id %}
 <h4>Add a new item to {{ character.name }}:</h4>
+{% if available_items %}
 <form action="/character/{{character.id}}" method="POST">
   <dl>
     {{ render_field(add_item_form.item_id) }}
@@ -116,6 +121,9 @@
   </dl>
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 </form>
+{% else %}
+<p>Sorry, there are no items to be added.</p>
+{% endif %}
 {% endif %}
 
 {% if session.get("user_id") == character.player_id %}

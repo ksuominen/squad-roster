@@ -37,6 +37,7 @@
 
 {% if is_gm %}
 <h4>Add a new character to this campaign:</h4>
+{% if available_characters %}
 <form action="/campaign/{{campaign.id}}" method="POST">
   <dl>
     {{ render_field(form.character_id) }}
@@ -44,6 +45,9 @@
   <input type="submit" value="Add character">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 </form>
+{% else %}
+<p>Sorry, there are no characters to be added</p>
+{% endif %}
 
 <h3>Danger zone</h3>
 <form action="/campaign/{{campaign.id}}/delete" method="POST">

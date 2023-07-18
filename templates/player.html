@@ -42,6 +42,10 @@
 <p>You don't have any characters yet.</p>
 {% endif %}
 
+{% if available_classes %}
 <span><a class="action-link" href="/character/add">Add a new character</a></span>
+{% else %}
+<p>No classes exist. Sorry, you can't create a character without a class.</p>
+{% endif %}
 
 {% endblock %}
