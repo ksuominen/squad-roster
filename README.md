@@ -45,7 +45,9 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Run the application:
+4. Rename .env.example as .env, set DATABASE_URL and SECRET_KEY as instructed
+
+5. Run the application:
 
 ```
 flask run
