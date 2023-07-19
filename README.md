@@ -17,7 +17,7 @@ Application features include:
 
 ## Installation
 
-Prerequisites: Python version `3.11.3`, virtualenv version `20.24.0`
+Prerequisites: Python version `3.11.3`, virtualenv version `20.24.0`, [PostgreSQL](https://www.postgresql.org/download/) installed
 
 1. In the project directory, create a new virtual environment:
 
