@@ -49,7 +49,18 @@ pip install -r requirements.txt
 
 4. Rename .env.example as .env, set DATABASE_URL and SECRET_KEY as instructed
 
-5. Run the application:
+5. To create an admin, run the following commands in your virtual environment:
+
+```
+flask shell
+import manage
+manage.create_admin("username", "password")
+quit()
+```
+
+If no username or password is provided, the default ones are used (defined in manage.py)
+
+6. Run the application:
 
 ```
 flask run
