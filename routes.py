@@ -18,7 +18,7 @@ def index():
 def login():
     form = f.LoginForm(request.form)
     if request.method == "POST" and form.validate():
-        if player.login(form.username.data, form.password.data):
+        if player.login(form.username.data.strip(), form.password.data):
             return redirect("/ownpage")
         else:
             return render_template("error.html", message="Wrong username or password.")
@@ -30,12 +30,13 @@ def login():
 def register():
     form = f.RegistrationForm(request.form)
     if request.method == "POST" and form.validate():
-        if player.username_taken(form.username.data):
+        username = form.username.data.strip()
+        if player.username_taken(username):
             return render_template(
                 "error.html",
                 message="Sorry, but the username is already in use. Please try another username!",
             )
-        if player.register(form.username.data, form.password.data):
+        if player.register(username, form.password.data):
             return redirect("/ownpage")
         else:
             return render_template("error.html", message="Registration failed.")

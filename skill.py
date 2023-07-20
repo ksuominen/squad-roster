@@ -26,17 +26,23 @@ def get_skill(skill_id):
 
 
 def get_trained_skills():
-    sql = text("SELECT id, name, description FROM skill WHERE LOWER(level) = 'trained'")
+    sql = text(
+        "SELECT id, name, description FROM skill WHERE LOWER(level) = 'trained' ORDER BY name"
+    )
     return db.session.execute(sql).fetchall()
 
 
 def get_expert_skills():
-    sql = text("SELECT id, name, description FROM skill WHERE LOWER(level) = 'expert'")
+    sql = text(
+        "SELECT id, name, description FROM skill WHERE LOWER(level) = 'expert' ORDER BY name"
+    )
     return db.session.execute(sql).fetchall()
 
 
 def get_master_skills():
-    sql = text("SELECT id, name, description FROM skill WHERE LOWER(level) = 'master'")
+    sql = text(
+        "SELECT id, name, description FROM skill WHERE LOWER(level) = 'master' ORDER BY name"
+    )
     return db.session.execute(sql).fetchall()
 
 
