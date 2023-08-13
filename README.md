@@ -15,7 +15,8 @@ Application features include:
 - Gamemaster and character's player can remove the character from the campaign.
 - Admin can create new items, skills, or classes or edit existing ones.
 
-You can try it at [squad-roster.fly.dev](https://squad-roster.fly.dev/)
+~~You can try it at [squad-roster.fly.dev](https://squad-roster.fly.dev/)~~
+No longer deployed at fly.io
 
 ## Installation
 
